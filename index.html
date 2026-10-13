@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Peta Capaian PBB-P2 - BAPENDA Kabupaten Karawang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <img src="assets/logo_karawang.png" alt="Logo Kabupaten Karawang" class="sidebar-logo">
+        <div class="brand-info">
+          <h2 class="brand-title">BAPENDA</h2>
+          <span class="brand-subtitle">KABUPATEN KARAWANG</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-menu">
+        <a href="#beranda" class="menu-item" id="menu-beranda">
+          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+          <span>Beranda</span>
+        </a>
+
+        <a href="#peta" class="menu-item active" id="menu-peta">
+          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+            <line x1="8" y1="2" x2="8" y2="18"></line>
+            <line x1="16" y1="6" x2="16" y2="22"></line>
+            <circle cx="12" cy="11" r="2" fill="currentColor"></circle>
+          </svg>
+          <span>Peta PBB-P2</span>
+        </a>
+
+        <a href="#realisasi" class="menu-item" id="menu-realisasi">
+          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10"></line>
+            <line x1="12" y1="20" x2="12" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="14"></line>
+          </svg>
+          <span>Realisasi & Target</span>
+        </a>
+
+        <a href="#pengguna" class="menu-item" id="menu-pengguna">
+          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="16" rx="2"></rect>
+            <circle cx="9" cy="10" r="2"></circle>
+            <line x1="15" y1="8" x2="17" y2="8"></line>
+            <line x1="15" y1="12" x2="17" y2="12"></line>
+            <line x1="7" y1="16" x2="17" y2="16"></line>
+          </svg>
+          <span>Pengguna Pajak</span>
+        </a>
+
+        <a href="#informasi" class="menu-item" id="menu-informasi">
+          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          <span>Informasi</span>
+        </a>
+      </nav>
+
+      <!-- SIDEBAR WATERMARK FOOTER -->
+      <div class="sidebar-watermark-footer">
+        <svg viewBox="0 0 120 70" class="monument-svg" fill="none" stroke="rgba(147, 197, 253, 0.45)" stroke-width="1.4">
+          <!-- Stylized Monumen Karawang -->
+          <path d="M60 4 L57 28 L51 46 L38 52 L26 55 L94 55 L82 52 L69 46 L63 28 Z" />
+          <path d="M60 4 L60 55" stroke-dasharray="2 2" />
+          <path d="M48 24 L45 46" />
+          <path d="M72 24 L75 46" />
+          <path d="M38 34 L35 48" />
+          <path d="M82 34 L85 48" />
+          <path d="M20 58 L100 58 M15 62 L105 62 M10 66 L110 66" />
+          <circle cx="60" cy="18" r="3" fill="rgba(147, 197, 253, 0.45)" />
+        </svg>
+        <span class="watermark-text-top">Bersama Membangun</span>
+        <span class="watermark-text-bottom">Karawang Lebih Baik</span>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      
+      <!-- ============================================================== -->
+      <!-- VIEW 1: LEVEL KABUPATEN KARAWANG                               -->
+      <!-- ============================================================== -->
+      <div id="viewKabupaten" class="dashboard-view active">
+        <!-- TOP ADMIN BAR -->
+        <div class="top-bar">
+          <div class="admin-dropdown-container">
+            <button class="admin-btn">
+              <div class="admin-avatar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </div>
+              <span class="admin-name">Admin</span>
+              <svg class="admin-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            
+            <div class="admin-dropdown-menu">
+              <div class="admin-dropdown-header">
+                <strong>Administrator BAPENDA</strong>
+                <span>admin@karawangkab.go.id</span>
+              </div>
+              <hr class="dropdown-divider">
+              <a href="#" class="dropdown-item">Profil Admin</a>
+              <a href="#" class="dropdown-item">Pengaturan Sistem</a>
+              <a href="#" class="dropdown-item">Log Aktivitas</a>
+              <hr class="dropdown-divider">
+              <a href="#" class="dropdown-item text-danger">Keluar</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- MAIN HEADER ROW -->
+        <section class="page-header">
+          <div class="header-left">
+            <h1 class="page-title">Peta Capaian PBB-P2</h1>
+            <h2 class="page-subtitle">Kabupaten Karawang</h2>
+            <p class="page-description">
+              Pantau capaian target dan realisasi pajak PBB-P2 di setiap kecamatan untuk mendukung pembangunan kabupaten Karawang.
+            </p>
+          </div>
+
+          <div class="header-right">
+            <!-- Year Selector -->
+            <div class="year-selector-wrapper">
+              <div class="year-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="calendar-icon">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                <span>Tahun</span>
+              </div>
+              <div class="custom-select-box">
+                <select id="yearSelectKabupaten">
+                  <option value="2026" selected>2026</option>
+                  <option value="2025">2025</option>
+                  <option value="2024">2024</option>
+                </select>
+                <svg class="select-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </div>
+            </div>
+
+            <!-- 3 Stat Cards -->
+            <div class="stats-cards-row">
+              <!-- Card 1 -->
+              <div class="stat-card">
+                <div class="stat-icon-wrapper">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <circle cx="12" cy="12" r="6"></circle>
+                    <circle cx="12" cy="12" r="2"></circle>
+                  </svg>
+                </div>
+                <div class="stat-content">
+                  <span class="stat-label">Total Target PBB-P2</span>
+                  <strong class="stat-value" id="totalTargetVal">Rp.412.560.000.000</strong>
+                </div>
+              </div>
+
+              <!-- Card 2 -->
+              <div class="stat-card">
+                <div class="stat-icon-wrapper">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"></path>
+                    <path d="M3 5v14a2 2 0 0 0 2 2h16v-5"></path>
+                    <path d="M18 12a2 2 0 0 0 0 4h4v-4z"></path>
+                  </svg>
+                </div>
+                <div class="stat-content">
+                  <span class="stat-label">Total Realisasi</span>
+                  <strong class="stat-value" id="totalRealisasiVal">Rp.318.742.500.000</strong>
+                </div>
+              </div>
+
+              <!-- Card 3 -->
+              <div class="stat-card">
+                <div class="donut-chart-wrapper">
+                  <svg viewBox="0 0 36 36" class="donut-chart">
+                    <path class="donut-ring" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#e2e8f0" stroke-width="3.6"/>
+                    <path class="donut-segment" id="donutProgressKab" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#22c55e" stroke-width="3.6" stroke-dasharray="77.3, 100" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <div class="stat-content">
+                  <span class="stat-label">Capaian Keseluruhan</span>
+                  <strong class="stat-value stat-value-highlight" id="totalCapaianVal">77,3%</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- DASHBOARD MAIN BODY -->
+        <div class="dashboard-body-grid">
+          <!-- LEFT: MAP CARD -->
+          <div class="map-card" id="mapCard">
+            <!-- North Compass Indicator -->
+            <div class="north-arrow-indicator" title="Arah Utara">
+              <svg viewBox="0 0 40 50" class="north-compass-svg">
+                <polygon points="20,0 28,30 20,24" fill="#1e3a8a"></polygon>
+                <polygon points="20,0 12,30 20,24" fill="#3b82f6"></polygon>
+                <text x="20" y="44" font-family="'Plus Jakarta Sans', sans-serif" font-size="13" font-weight="800" fill="#1e293b" text-anchor="middle">N</text>
+              </svg>
+            </div>
+
+            <!-- Map SVG Canvas -->
+            <div class="map-svg-container" id="mapSvgContainer">
+              <svg id="karawangMapSvg" viewBox="0 0 800 1011" preserveAspectRatio="xMidYMid meet">
+                <g id="mapPolygonsGroup"></g>
+                <g id="mapLabelsGroup"></g>
+              </svg>
+
+              <!-- Floating Map Tooltip/Popup -->
+              <div class="map-popup-card" id="mapPopupCard">
+                <div class="popup-header" id="popupHeaderClickable" title="Klik untuk membuka detail kecamatan">
+                  <span class="popup-title" id="popupKecamatanName">Karawang Barat</span>
+                  <svg class="popup-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </div>
+                <div class="popup-body">
+                  <div class="popup-row">
+                    <span class="p-label">Target :</span>
+                    <span class="p-val" id="popupTarget">Rp. 45.800.000.000</span>
+                  </div>
+                  <div class="popup-row">
+                    <span class="p-label">Realisasi :</span>
+                    <span class="p-val" id="popupRealisasi">Rp. 41.230.000.000</span>
+                  </div>
+                  <div class="popup-row">
+                    <span class="p-label">Capaian :</span>
+                    <span class="p-val" id="popupCapaian">90,0%</span>
+                  </div>
+                </div>
+                <div class="popup-badge" id="popupBadge">
+                  <span class="status-dot"></span>
+                  <span class="status-text" id="popupBadgeText">Mendekati Target</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Zoom Controls (Bottom Left) -->
+            <div class="map-zoom-controls">
+              <button class="zoom-btn" id="zoomInBtn" title="Perbesar Peta">+</button>
+              <div class="zoom-divider"></div>
+              <button class="zoom-btn" id="zoomOutBtn" title="Perkecil Peta">−</button>
+            </div>
+
+            <!-- Legend Box (Bottom Right) -->
+            <div class="map-legend-card">
+              <h4 class="legend-title">Keterangan Warna</h4>
+              <div class="legend-list">
+                <div class="legend-item">
+                  <span class="legend-color-box bg-green"></span>
+                  <span class="legend-text">≥ 100% (Tercapai)</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-color-box bg-yellow"></span>
+                  <span class="legend-text">70 - 99% (Mendekati Target)</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-color-box bg-orange"></span>
+                  <span class="legend-text">30 - 69% (Capaian Sedang)</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-color-box bg-red"></span>
+                  <span class="legend-text">≤ 30% (Capaian Rendah)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: SIDE PANELS -->
+          <div class="side-panels-column">
+            <!-- Panel 1: Daftar Kecamatan -->
+            <div class="panel-card daftar-kecamatan-panel">
+              <h3 class="panel-title">Daftar Kecamatan</h3>
+              
+              <div class="search-input-wrapper">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="searchInput" placeholder="Cari Kecamatan..." autocomplete="off">
+              </div>
+
+              <div class="kecamatan-scroll-list" id="kecamatanList">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+
+            <!-- Panel 2: Detail Kecamatan -->
+            <div class="panel-card detail-kecamatan-panel" id="detailKecamatanPanel">
+              <!-- Header Banner -->
+              <div class="detail-banner" id="detailBanner">
+                <div class="banner-left">
+                  <svg class="pin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                  </svg>
+                  <span class="banner-title" id="detailKecamatanName">Kecamatan Karawang Barat</span>
+                </div>
+                <span class="banner-badge badge-yellow" id="detailBadge">Mendekati Target</span>
+              </div>
+
+              <!-- Content Body -->
+              <div class="detail-content">
+                <div class="detail-row">
+                  <span class="d-label">Target PBB-P2</span>
+                  <strong class="d-val" id="detailTarget">Rp.412.560.000.000</strong>
+                </div>
+
+                <div class="detail-row">
+                  <span class="d-label">Realisasi</span>
+                  <strong class="d-val" id="detailRealisasi">Rp.318.742.500.000</strong>
+                </div>
+
+                <div class="detail-row align-center">
+                  <span class="d-label">Capaian</span>
+                  <div class="progress-container">
+                    <div class="progress-bar-track">
+                      <div class="progress-bar-fill fill-yellow" id="detailProgressFill" style="width: 90%;"></div>
+                    </div>
+                    <strong class="progress-percent" id="detailCapaian">90,0%</strong>
+                  </div>
+                </div>
+
+                <!-- Context Notice Box -->
+                <div class="detail-notice-box" id="detailNoticeBox">
+                  <svg class="notice-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                  </svg>
+                  <div class="notice-text-group">
+                    <p class="notice-title" id="noticeTitle">Capaian masih di bawah 100%.</p>
+                    <p class="notice-desc" id="noticeDesc">Perlu ditingkatkan pengelolaan dan pembayaran PBB-P2 di wilayah ini.</p>
+                  </div>
+                </div>
+
+                <!-- Action Button to Open Detail View -->
+                <button class="btn-navigate-detail" id="btnOpenKecamatanDetail">
+                  <span>Lihat Detail Kecamatan</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================== -->
+      <!-- VIEW 2: LEVEL DETAIL KECAMATAN (CILEBAR)                       -->
+      <!-- ============================================================== -->
+      <div id="viewKecamatan" class="dashboard-view" style="display: none;">
+        <!-- TOP NAVIGATION & ADMIN BAR -->
+        <div class="view-header-top-bar">
+          <button class="back-link-btn" id="btnBackToKabupaten">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="back-arrow-icon">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            <span>Kembali ke Peta Kecamatan</span>
+          </button>
+
+          <div class="admin-dropdown-container">
+            <button class="admin-btn">
+              <div class="admin-avatar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </div>
+              <span class="admin-name">Admin</span>
+              <svg class="admin-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- KECAMATAN HEADER SECTION -->
+        <section class="kecamatan-main-header">
+          <div class="header-title-block">
+            <div class="pin-title-row">
+              <div class="location-pin-circle">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/>
+                </svg>
+              </div>
+              <h1 class="kecamatan-view-title" id="kecViewTitle">Kecamatan Cilebar</h1>
+            </div>
+            <p class="kecamatan-view-desc" id="kecViewDesc">Detail data per desa/kelurahan pada Kecamatan Cilebar.</p>
+          </div>
+
+          <div class="year-selector-wrapper">
+            <div class="year-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="calendar-icon">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              <span>Tahun</span>
+            </div>
+            <div class="custom-select-box">
+              <select id="yearSelectKecamatan">
+                <option value="2026" selected>2026</option>
+                <option value="2025">2025</option>
+                <option value="2024">2024</option>
+              </select>
+              <svg class="select-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5 SUMMARY STAT CARDS (ROW) -->
+        <section class="kecamatan-5-summary-row">
+          <!-- Card 1: Total Target PBB-P2 -->
+          <div class="kec-summary-card">
+            <div class="kec-card-icon icon-bg-blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <circle cx="12" cy="12" r="6"></circle>
+                <circle cx="12" cy="12" r="2"></circle>
+              </svg>
+            </div>
+            <div class="kec-card-text">
+              <span class="kec-card-label">Total Target PBB–P2</span>
+              <strong class="kec-card-val" id="kecSumTarget">Rp. 5.100.000.000</strong>
+            </div>
+          </div>
+
+          <!-- Card 2: Total Realisasi -->
+          <div class="kec-summary-card">
+            <div class="kec-card-icon icon-bg-green">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"></path>
+                <path d="M3 5v14a2 2 0 0 0 2 2h16v-5"></path>
+                <path d="M18 12a2 2 0 0 0 0 4h4v-4z"></path>
+              </svg>
+            </div>
+            <div class="kec-card-text">
+              <span class="kec-card-label">Total Realisasi</span>
+              <strong class="kec-card-val" id="kecSumRealisasi">Rp. 5.304.000.000</strong>
+            </div>
+          </div>
+
+          <!-- Card 3: Sisa Tagihan -->
+          <div class="kec-summary-card">
+            <div class="kec-card-icon icon-bg-red">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </div>
+            <div class="kec-card-text">
+              <span class="kec-card-label">Sisa Tagihan</span>
+              <strong class="kec-card-val" id="kecSumSisa">Rp. 0</strong>
+            </div>
+          </div>
+
+          <!-- Card 4: Capaian Keseluruhan Donut -->
+          <div class="kec-summary-card">
+            <div class="donut-chart-wrapper-sm">
+              <svg viewBox="0 0 36 36" class="donut-chart">
+                <path class="donut-ring" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#e2e8f0" stroke-width="3.5"/>
+                <path class="donut-segment" id="donutProgressKec" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#22c55e" stroke-width="3.5" stroke-dasharray="100, 100" stroke-linecap="round"/>
+              </svg>
+              <span class="donut-center-pct" id="donutKecCenterPct">104,0%</span>
+            </div>
+            <div class="kec-card-text">
+              <span class="kec-card-label">Capaian Keseluruhan</span>
+              <strong class="kec-card-val" id="kecSumCapaian">104,0%</strong>
+            </div>
+          </div>
+
+          <!-- Card 5: Jumlah Desa/Kelurahan -->
+          <div class="kec-summary-card">
+            <div class="kec-card-icon icon-bg-purple">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
+            </div>
+            <div class="kec-card-text">
+              <span class="kec-card-label">Jumlah Desa/Kelurahan</span>
+              <strong class="kec-card-val" id="kecSumJumlahDesa">10 Desa</strong>
+            </div>
+          </div>
+        </section>
+
+        <!-- MIDDLE SECTION: MAP & DAFTAR DESA TABLE -->
+        <div class="kecamatan-middle-grid">
+          <!-- LEFT CARD: PETA DESA/KELURAHAN -->
+          <div class="panel-card desa-map-panel">
+            <div class="desa-map-header">
+              <div class="header-left-title">
+                <svg class="header-pin" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/>
+                </svg>
+                <h3 id="desaMapTitle">Peta Desa/Kelurahan - Kecamatan Cilebar</h3>
+              </div>
+
+              <!-- Map Toolbar: Peta / Satelit & Fullscreen -->
+              <div class="desa-map-toolbar">
+                <div class="map-mode-pill-toggle">
+                  <button class="mode-btn active" id="btnModePeta">Peta</button>
+                  <button class="mode-btn" id="btnModeSatelit">Satelit</button>
+                </div>
+                <button class="fullscreen-btn" id="btnMapFullscreen" title="Layar Penuh">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Interactive Village Map Canvas -->
+            <div class="desa-map-canvas-container" id="desaMapContainer">
+              <!-- Basemap Background Layer (Google Maps subtle styled background) -->
+              <div class="google-styled-basemap" id="basemapLayer">
+                <div class="basemap-place-label label-jatisari">Jatisari</div>
+                <div class="basemap-place-label label-walahar">Walahar</div>
+                <div class="basemap-place-label label-cikampek">Cikampek</div>
+                <div class="basemap-highway-badge badge-h1">1</div>
+              </div>
+
+              <!-- SVG Villages Layer -->
+              <svg id="cilebarMapSvg" viewBox="0 0 600 742" preserveAspectRatio="xMidYMid meet">
+                <g id="cilebarPolygonsGroup"></g>
+                <g id="cilebarLabelsGroup"></g>
+              </svg>
+
+              <!-- North Arrow Needle -->
+              <div class="north-arrow-indicator-cilebar" title="Arah Utara">
+                <svg viewBox="0 0 36 46">
+                  <polygon points="18,0 25,26 18,21" fill="#1e3a8a"></polygon>
+                  <polygon points="18,0 11,26 18,21" fill="#3b82f6"></polygon>
+                  <text x="18" y="40" font-family="'Plus Jakarta Sans', sans-serif" font-size="12" font-weight="800" fill="#1e293b" text-anchor="middle">N</text>
+                </svg>
+              </div>
+
+              <!-- Zoom Controls & Google Branding (Bottom Left) -->
+              <div class="desa-map-bottom-left-controls">
+                <div class="map-zoom-controls">
+                  <button class="zoom-btn" id="cilebarZoomIn">+</button>
+                  <div class="zoom-divider"></div>
+                  <button class="zoom-btn" id="cilebarZoomOut">−</button>
+                </div>
+                <div class="google-watermark-logo">
+                  <span class="g-blue">G</span><span class="g-red">o</span><span class="g-yellow">o</span><span class="g-blue">g</span><span class="g-green">l</span><span class="g-red">e</span>
+                </div>
+              </div>
+
+              <!-- Color Legend (Bottom Right) -->
+              <div class="map-legend-card cilebar-legend">
+                <h4 class="legend-title">Keterangan Warna</h4>
+                <div class="legend-list">
+                  <div class="legend-item">
+                    <span class="legend-color-box bg-green"></span>
+                    <span class="legend-text">≥ 100% (Tercapai)</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-color-box bg-yellow"></span>
+                    <span class="legend-text">70 - 99% (Mendekati Target)</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-color-box bg-orange"></span>
+                    <span class="legend-text">30 - 69% (Capaian Sedang)</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-color-box bg-red"></span>
+                    <span class="legend-text">&lt; 30% (Capaian Rendah)</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Floating Tooltip Card for Desa -->
+              <div class="map-popup-card desa-popup" id="desaPopupCard" style="display: none;">
+                <div class="popup-header">
+                  <span class="popup-title" id="desaPopupName">Desa Sukaratu</span>
+                  <svg class="popup-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </div>
+                <div class="popup-body">
+                  <div class="popup-row">
+                    <span class="p-label">Target :</span>
+                    <span class="p-val" id="desaPopupTarget">Rp. 550.000.000</span>
+                  </div>
+                  <div class="popup-row">
+                    <span class="p-label">Realisasi :</span>
+                    <span class="p-val" id="desaPopupRealisasi">Rp. 528.000.000</span>
+                  </div>
+                  <div class="popup-row">
+                    <span class="p-label">Capaian :</span>
+                    <span class="p-val" id="desaPopupCapaian">96,0%</span>
+                  </div>
+                </div>
+                <div class="popup-badge" id="desaPopupBadge">
+                  <span class="status-dot"></span>
+                  <span class="status-text" id="desaPopupBadgeText">Mendekati Target</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT CARD: DAFTAR DESA/KELURAHAN TABLE -->
+          <div class="panel-card desa-table-panel">
+            <div class="desa-table-header">
+              <h3 id="desaTableTitle">Daftar Desa/Kelurahan - Kecamatan Cilebar</h3>
+              <div class="search-input-wrapper">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="searchDesaInput" placeholder="Cari desa/kelurahan..." autocomplete="off">
+              </div>
+            </div>
+
+            <div class="desa-table-container">
+              <table class="desa-data-table">
+                <thead>
+                  <tr>
+                    <th style="width: 45px;">No</th>
+                    <th>Nama Desa/Kelurahan</th>
+                    <th style="width: 105px; cursor: pointer; user-select: none;" id="thPersentase" title="Klik untuk mengurutkan berdasarkan persentase capaian">
+                      <span style="display: inline-flex; align-items: center; gap: 4px;">
+                        <span>Persentase</span>
+                        <span id="sortPctIcon" style="font-size: 11px; opacity: 0.7;">⇅</span>
+                      </span>
+                    </th>
+                    <th style="width: 130px;">Status</th>
+                    <th style="width: 50px; text-align: center;">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="desaTableBody">
+                  <!-- Dynamically populated rows -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- BOTTOM SECTION: DETAIL DESA/KELURAHAN                          -->
+        <!-- ============================================================== -->
+        <section class="panel-card detail-desa-bottom-card" id="detailDesaBottomSection">
+          <!-- Sub-navigation Back link -->
+          <div class="detail-desa-top-nav">
+            <button class="back-link-btn-sub" id="btnBackToDaftarDesa">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="back-arrow-icon">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+              <span>Kembali ke Daftar Kecamatan</span>
+            </button>
+          </div>
+
+          <!-- Title Bar -->
+          <div class="detail-desa-header-row">
+            <div class="header-icon-title">
+              <div class="home-icon-circle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+              </div>
+              <h2>Detail Desa/Kelurahan</h2>
+            </div>
+          </div>
+
+          <!-- Top Mini-Summary Metric Row -->
+          <div class="desa-metric-summary-bar">
+            <!-- Village Badge Pill -->
+            <div class="desa-name-pill-badge" id="selectedDesaPill">
+              <span class="desa-indicator-dot" id="desaPillDot"></span>
+              <span class="desa-pill-title" id="desaPillTitle">Cilebar</span>
+              <span class="desa-pill-status-tag tag-green" id="desaPillStatusTag">Tercapai</span>
+            </div>
+
+            <!-- Target PBB-P2 -->
+            <div class="mini-stat-card">
+              <div class="mini-icon icon-bg-blue">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                  <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+                  <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+                </svg>
+              </div>
+              <div class="mini-text">
+                <span class="m-label">Target PBB–P2</span>
+                <strong class="m-val" id="desaDetailTarget">Rp. 5.100.000.000</strong>
+              </div>
+            </div>
+
+            <!-- Realisasi -->
+            <div class="mini-stat-card">
+              <div class="mini-icon icon-bg-green">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+                  <circle cx="12" cy="12" r="2"></circle>
+                  <path d="M6 12h.01M18 12h.01"></path>
+                </svg>
+              </div>
+              <div class="mini-text">
+                <span class="m-label">Realisasi</span>
+                <strong class="m-val" id="desaDetailRealisasi">Rp. 5.304.000.000</strong>
+              </div>
+            </div>
+
+            <!-- Sisa Tagihan -->
+            <div class="mini-stat-card">
+              <div class="mini-icon icon-bg-red">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+              </div>
+              <div class="mini-text">
+                <span class="m-label">Sisa Tagihan</span>
+                <strong class="m-val" id="desaDetailSisa">Rp. 0</strong>
+              </div>
+            </div>
+
+            <!-- Capaian Keseluruhan Donut -->
+            <div class="mini-stat-card mini-donut-card">
+              <div class="donut-chart-wrapper-sm">
+                <svg viewBox="0 0 36 36" class="donut-chart">
+                  <path class="donut-ring" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#e2e8f0" stroke-width="3.5"/>
+                  <path class="donut-segment" id="donutDesaBottom" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#22c55e" stroke-width="3.5" stroke-dasharray="100, 100" stroke-linecap="round"/>
+                </svg>
+                <span class="donut-center-pct" id="donutDesaBottomCenterPct">104,0%</span>
+              </div>
+              <div class="mini-text">
+                <span class="m-label">Capaian</span>
+                <span class="m-sub-label">Keseluruhan</span>
+              </div>
+            </div>
+
+            <!-- Info Advisory Notice Box -->
+            <div class="desa-info-advisory-box">
+              <div class="info-bubble-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="16" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+              </div>
+              <div class="info-content-text">
+                <strong>Informasi</strong>
+                <p id="desaAdvisoryText">Capaian pembayaran desa/kelurahan sudah mencapai 100% atau lebih dari target. Terus pertahankan dan tingkatkan realisasi pembayarannya.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section Divider: Rincian Pajak Desa/Kelurahan -->
+          <div class="section-sub-heading">
+            <span class="sub-heading-toggle">▾</span>
+            <h4>Rincian Pajak Desa/Kelurahan</h4>
+          </div>
+
+          <!-- 4 Bottom Detail Cards -->
+          <div class="desa-tax-breakdown-grid">
+            <!-- 1: Obyek Pajak Terdaftar -->
+            <div class="breakdown-card">
+              <div class="b-icon icon-bg-blue">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </div>
+              <div class="b-text">
+                <span class="b-label">Obyek Pajak Terdaftar</span>
+                <strong class="b-val" id="valObyekTerdaftar">1.248</strong>
+              </div>
+            </div>
+
+            <!-- 2: Obyek Pajak Lunas -->
+            <div class="breakdown-card">
+              <div class="b-icon icon-bg-green">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  <polyline points="9 12 11 14 15 10"></polyline>
+                </svg>
+              </div>
+              <div class="b-text">
+                <span class="b-label">Obyek Pajak Lunas</span>
+                <strong class="b-val" id="valObyekLunas">1.203</strong>
+              </div>
+            </div>
+
+            <!-- 3: Obyek Pajak Belum Lunas -->
+            <div class="breakdown-card">
+              <div class="b-icon icon-bg-red">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+              </div>
+              <div class="b-text">
+                <span class="b-label">Obyek Pajak Belum Lunas</span>
+                <strong class="b-val" id="valObyekBelumLunas">45</strong>
+              </div>
+            </div>
+
+            <!-- 4: Persentase Capaian Progress Bar -->
+            <div class="breakdown-card progress-breakdown-card">
+              <div class="progress-breakdown-content">
+                <div class="progress-header-row">
+                  <span class="b-label">Persentase Capaian</span>
+                  <strong class="b-val-pct" id="valBreakdownPct">104,0%</strong>
+                </div>
+                <div class="progress-bar-track-lg">
+                  <div class="progress-bar-fill-lg fill-green" id="barBreakdownFill" style="width: 100%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="assets/data.js"></script>
+  <script src="assets/cilebar_data.js"></script>
+  <script src="assets/tempuran_data.js"></script>
+  <script src="assets/cilamaya_kulon_data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
