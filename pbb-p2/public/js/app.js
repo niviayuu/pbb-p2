@@ -163,14 +163,14 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   btnOpenKecamatanDetail.addEventListener('click', () => {
-    const validKecs = ['banyusari', 'cilamaya-wetan', 'cilamaya-kulon', 'tempuran', 'cilebar'];
+    const validKecs = ['banyusari', 'cilamaya-kulon', 'tempuran', 'cilebar'];
     const targetKec = validKecs.includes(selectedKecamatanId) ? selectedKecamatanId : 'banyusari';
     switchView('kecamatan', targetKec);
   });
 
   if (popupHeaderClickable) {
     popupHeaderClickable.addEventListener('click', () => {
-      const validKecs = ['banyusari', 'cilamaya-wetan', 'cilamaya-kulon', 'tempuran', 'cilebar'];
+      const validKecs = ['banyusari', 'cilamaya-kulon', 'tempuran', 'cilebar'];
       const targetKec = validKecs.includes(selectedKecamatanId) ? selectedKecamatanId : 'banyusari';
       switchView('kecamatan', targetKec);
     });
@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Double-click opens detail
       path.addEventListener('dblclick', () => {
-        const validKecs = ['banyusari', 'cilamaya-wetan', 'cilamaya-kulon', 'tempuran', 'cilebar'];
+        const validKecs = ['banyusari', 'cilamaya-kulon', 'tempuran', 'cilebar'];
         const targetKec = validKecs.includes(item.id) ? item.id : 'banyusari';
         switchView('kecamatan', targetKec);
       });
@@ -307,7 +307,7 @@ document.addEventListener('DOMContentLoaded', () => {
       chevron.addEventListener('click', (e) => {
         e.stopPropagation();
         selectKecamatan(item.id);
-        const validKecs = ['banyusari', 'cilamaya-wetan', 'cilamaya-kulon', 'tempuran', 'cilebar'];
+        const validKecs = ['banyusari', 'cilamaya-kulon', 'tempuran', 'cilebar'];
         const targetKec = validKecs.includes(item.id) ? item.id : 'banyusari';
         switchView('kecamatan', targetKec);
       });
@@ -438,7 +438,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // =========================================================================
   // =========================================================================
-  // KECAMATAN LEVEL RENDERING & LOGIC (CILEBAR, TEMPURAN, CILAMAYA KULON, CILAMAYA WETAN & BANYUSARI)
+  // KECAMATAN LEVEL RENDERING & LOGIC (CILEBAR, TEMPURAN, CILAMAYA KULON & BANYUSARI)
   // =========================================================================
   let activeKecamatanId = 'banyusari';
   let activeDesaData = [];
@@ -454,12 +454,6 @@ document.addEventListener('DOMContentLoaded', () => {
       activeSummary = typeof BANYUSARI_SUMMARY !== 'undefined' ? BANYUSARI_SUMMARY : {};
       activeViewBoxWidth = typeof BANYUSARI_VIEWBOX_WIDTH !== 'undefined' ? BANYUSARI_VIEWBOX_WIDTH : 600;
       activeViewBoxHeight = typeof BANYUSARI_VIEWBOX_HEIGHT !== 'undefined' ? BANYUSARI_VIEWBOX_HEIGHT : 458;
-    } else if (kecId === 'cilamaya-wetan') {
-      activeKecamatanId = 'cilamaya-wetan';
-      activeDesaData = typeof CILAMAYA_WETAN_DESA_DATA !== 'undefined' ? CILAMAYA_WETAN_DESA_DATA : [];
-      activeSummary = typeof CILAMAYA_WETAN_SUMMARY !== 'undefined' ? CILAMAYA_WETAN_SUMMARY : {};
-      activeViewBoxWidth = typeof CILAMAYA_WETAN_VIEWBOX_WIDTH !== 'undefined' ? CILAMAYA_WETAN_VIEWBOX_WIDTH : 600;
-      activeViewBoxHeight = typeof CILAMAYA_WETAN_VIEWBOX_HEIGHT !== 'undefined' ? CILAMAYA_WETAN_VIEWBOX_HEIGHT : 559;
     } else if (kecId === 'cilamaya-kulon') {
       activeKecamatanId = 'cilamaya-kulon';
       activeDesaData = typeof CILAMAYA_KULON_DESA_DATA !== 'undefined' ? CILAMAYA_KULON_DESA_DATA : [];
@@ -481,9 +475,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const kecName = activeKecamatanId === 'banyusari' ? 'Banyusari'
-                  : (activeKecamatanId === 'cilamaya-wetan' ? 'Cilamaya Wetan'
                   : (activeKecamatanId === 'cilamaya-kulon' ? 'Cilamaya Kulon' 
-                  : (activeKecamatanId === 'tempuran' ? 'Tempuran' : 'Cilebar')));
+                  : (activeKecamatanId === 'tempuran' ? 'Tempuran' : 'Cilebar'));
 
     // 1. Update Titles
     const kecViewTitle = document.getElementById('kecViewTitle');
@@ -534,7 +527,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 7. Default Select initial village
     const initialDesa = activeKecamatanId === 'banyusari' ? 'banyuasih'
-                      : (activeKecamatanId === 'cilamaya-wetan' ? 'cikalong'
                       : (activeKecamatanId === 'cilamaya-kulon' ? 'bayur-kidul' 
                       : (activeKecamatanId === 'tempuran' ? 'tempuran' : 'sukaratu'));
     selectDesa(initialDesa);
@@ -585,12 +577,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (d.name === 'Langensari') { ly -= 2; }
       if (d.name === 'Pasirukem') { ly += 2; }
       if (d.name === 'Sukajaya') { ly -= 4; }
-
-      // Cilamaya Wetan fine-tune offsets
-      if (d.name === 'Muara Baru') { ly -= 4; }
-      if (d.name === 'Sukakerta') { ly -= 2; }
-      if (d.name === 'Cilamaya') { lx += 2; }
-      if (d.name === 'Mekarmaya') { ly += 2; }
 
       const textName = document.createElementNS('http://www.w3.org/2000/svg', 'text');
       textName.setAttribute('x', lx);
@@ -846,10 +832,9 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (hash.startsWith('#desa')) {
       const desaId = hash.replace('#desa-', '');
       const inBanyusari = typeof BANYUSARI_DESA_DATA !== 'undefined' && BANYUSARI_DESA_DATA.some(d => d.id === desaId);
-      const inCilamayaWetan = typeof CILAMAYA_WETAN_DESA_DATA !== 'undefined' && CILAMAYA_WETAN_DESA_DATA.some(d => d.id === desaId);
       const inCilamayaKulon = typeof CILAMAYA_KULON_DESA_DATA !== 'undefined' && CILAMAYA_KULON_DESA_DATA.some(d => d.id === desaId);
       const inTempuran = typeof TEMPURAN_DESA_DATA !== 'undefined' && TEMPURAN_DESA_DATA.some(d => d.id === desaId);
-      const targetKec = inBanyusari ? 'banyusari' : (inCilamayaWetan ? 'cilamaya-wetan' : (inCilamayaKulon ? 'cilamaya-kulon' : (inTempuran ? 'tempuran' : 'cilebar')));
+      const targetKec = inBanyusari ? 'banyusari' : (inCilamayaKulon ? 'cilamaya-kulon' : (inTempuran ? 'tempuran' : 'cilebar'));
       switchView('kecamatan', targetKec);
       setTimeout(() => selectDesa(desaId), 100);
     } else {
