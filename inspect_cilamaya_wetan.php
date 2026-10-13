@@ -1,5 +1,5 @@
 <?php
-$content = shell_exec('git show 2db7c0c:assets/cilamaya_wetan_data.js');
+$content = file_get_contents(__DIR__ . '/assets/cilamaya_wetan_data.js');
 preg_match('/const CILAMAYA_WETAN_SUMMARY = (\{.*?\});/s', $content, $mSum);
 preg_match('/const CILAMAYA_WETAN_DESA_DATA = (\[.*?\]);/s', $content, $mDesa);
 

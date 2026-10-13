@@ -7,14 +7,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <div class="app-layout">
     <!-- SIDEBAR -->
     <aside class="sidebar">
       <div class="sidebar-header">
-        <img src="{{ asset('assets/logo_karawang.png') }}" alt="Logo Kabupaten Karawang" class="sidebar-logo">
+        <img src="assets/logo_karawang.png" alt="Logo Kabupaten Karawang" class="sidebar-logo">
         <div class="brand-info">
           <h2 class="brand-title">BAPENDA</h2>
           <span class="brand-subtitle">KABUPATEN KARAWANG</span>
@@ -73,6 +73,7 @@
       <!-- SIDEBAR WATERMARK FOOTER -->
       <div class="sidebar-watermark-footer">
         <svg viewBox="0 0 120 70" class="monument-svg" fill="none" stroke="rgba(147, 197, 253, 0.45)" stroke-width="1.4">
+          <!-- Stylized Monumen Karawang -->
           <path d="M60 4 L57 28 L51 46 L38 52 L26 55 L94 55 L82 52 L69 46 L63 28 Z" />
           <path d="M60 4 L60 55" stroke-dasharray="2 2" />
           <path d="M48 24 L45 46" />
@@ -540,7 +541,7 @@
 
             <!-- Interactive Village Map Canvas -->
             <div class="desa-map-canvas-container" id="desaMapContainer">
-              <!-- Basemap Background Layer -->
+              <!-- Basemap Background Layer (Google Maps subtle styled background) -->
               <div class="google-styled-basemap" id="basemapLayer">
                 <div class="basemap-place-label label-jatisari">Jatisari</div>
                 <div class="basemap-place-label label-walahar">Walahar</div>
@@ -689,7 +690,11 @@
                   <polyline points="9 22 9 12 15 12 15 22"></polyline>
                 </svg>
               </div>
-              <h2>Detail Desa/Kelurahan</h2>
+              <h2 id="desaDetailHeading">Detail Desa/Kelurahan</h2>
+            </div>
+            <div class="desa-header-meta">
+              <span class="desa-header-kecamatan" id="desaDetailKecamatanBadge">Kecamatan Cilamaya Wetan</span>
+              <span class="desa-header-year" id="desaDetailYearBadge">Tahun Pajak <strong id="desaDetailYearText">2026</strong></span>
             </div>
           </div>
 
@@ -847,10 +852,16 @@
   </div>
 
   <!-- SCRIPTS -->
-  <script src="{{ asset('assets/data.js') }}"></script>
-  <script src="{{ asset('assets/cilebar_data.js') }}"></script>
-  <script src="{{ asset('assets/tempuran_data.js') }}"></script>
-  <script src="{{ asset('assets/cilamaya_kulon_data.js') }}"></script>
-  <script src="{{ asset('js/app.js') }}"></script>
+  <script src="assets/data.js"></script>
+  <script src="assets/cilebar_data.js"></script>
+  <script src="assets/tempuran_data.js"></script>
+  <script src="assets/cilamaya_kulon_data.js"></script>
+  <script src="assets/cilamaya_wetan_data.js"></script>
+  <script src="assets/banyusari_data.js"></script>
+  <script src="assets/jatisari_data.js"></script>
+  <script src="assets/kotabaru_data.js"></script>
+  <script src="assets/cikampek_data.js"></script>
+  <script src="assets/purwasari_data.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>

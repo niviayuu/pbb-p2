@@ -5,7 +5,7 @@
 
 :root {
   --font-primary: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  
+
   /* Core Colors */
   --bg-page: #f3f5f9;
   --sidebar-bg: #142143;
@@ -13,7 +13,7 @@
   --sidebar-active: #2f5ea8;
   --sidebar-text: #8e9fb7;
   --sidebar-text-active: #ffffff;
-  
+
   --card-bg: #ffffff;
   --card-border: #e2e8f0;
   --text-main: #0f172a;
@@ -206,8 +206,15 @@ body {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* TOP ADMIN BAR */
@@ -553,7 +560,7 @@ body {
 }
 
 .kecamatan-polygon:hover {
-  filter: brightness(1.08) drop-shadow(0 2px 5px rgba(0,0,0,0.15));
+  filter: brightness(1.08) drop-shadow(0 2px 5px rgba(0, 0, 0, 0.15));
   stroke-width: 2.2;
 }
 
@@ -597,7 +604,7 @@ body {
   width: 32px;
   height: 40px;
   display: block;
-  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
 }
 
 /* Zoom Controls */
@@ -689,10 +696,21 @@ body {
   color: #475569;
 }
 
-.bg-green { background-color: var(--color-green); }
-.bg-yellow { background-color: var(--color-yellow); }
-.bg-orange { background-color: var(--color-orange); }
-.bg-red { background-color: var(--color-red); }
+.bg-green {
+  background-color: var(--color-green);
+}
+
+.bg-yellow {
+  background-color: var(--color-yellow);
+}
+
+.bg-orange {
+  background-color: var(--color-orange);
+}
+
+.bg-red {
+  background-color: var(--color-red);
+}
 
 /* Floating Map Tooltip/Popup */
 .map-popup-card {
@@ -813,7 +831,8 @@ body {
   pointer-events: none;
 }
 
-#searchInput, #searchDesaInput {
+#searchInput,
+#searchDesaInput {
   width: 100%;
   padding: 7px 12px 7px 32px;
   border: 1px solid var(--card-border);
@@ -826,11 +845,13 @@ body {
   transition: border-color 0.15s;
 }
 
-#searchInput:focus, #searchDesaInput:focus {
+#searchInput:focus,
+#searchDesaInput:focus {
   border-color: #94a3b8;
 }
 
-#searchInput::placeholder, #searchDesaInput::placeholder {
+#searchInput::placeholder,
+#searchDesaInput::placeholder {
   color: var(--text-light);
 }
 
@@ -955,10 +976,25 @@ body {
   white-space: nowrap;
 }
 
-.badge-green { background-color: #bbf7d0; color: #166534; }
-.badge-yellow { background-color: #fef08a; color: #854d0e; }
-.badge-orange { background-color: #ffedd5; color: #9a3412; }
-.badge-red { background-color: #fee2e2; color: #991b1b; }
+.badge-green {
+  background-color: #bbf7d0;
+  color: #166534;
+}
+
+.badge-yellow {
+  background-color: #fef08a;
+  color: #854d0e;
+}
+
+.badge-orange {
+  background-color: #ffedd5;
+  color: #9a3412;
+}
+
+.badge-red {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
 
 .detail-content {
   padding: 16px 18px;
@@ -1004,10 +1040,21 @@ body {
   transition: width 0.3s ease-out, background-color 0.3s;
 }
 
-.fill-green { background-color: var(--color-green); }
-.fill-yellow { background-color: var(--color-yellow); }
-.fill-orange { background-color: var(--color-orange); }
-.fill-red { background-color: var(--color-red); }
+.fill-green {
+  background-color: var(--color-green);
+}
+
+.fill-yellow {
+  background-color: var(--color-yellow);
+}
+
+.fill-orange {
+  background-color: var(--color-orange);
+}
+
+.fill-red {
+  background-color: var(--color-red);
+}
 
 .progress-percent {
   font-size: 13px;
@@ -1200,10 +1247,25 @@ body {
   height: 18px;
 }
 
-.icon-bg-blue { background-color: #eff6ff; color: #2563eb; }
-.icon-bg-green { background-color: #f0fdf4; color: #16a34a; }
-.icon-bg-red { background-color: #fef2f2; color: #ef4444; }
-.icon-bg-purple { background-color: #eef2ff; color: #4f46e5; }
+.icon-bg-blue {
+  background-color: #eff6ff;
+  color: #2563eb;
+}
+
+.icon-bg-green {
+  background-color: #f0fdf4;
+  color: #16a34a;
+}
+
+.icon-bg-red {
+  background-color: #fef2f2;
+  color: #ef4444;
+}
+
+.icon-bg-purple {
+  background-color: #eef2ff;
+  color: #4f46e5;
+}
 
 .kec-card-text {
   display: flex;
@@ -1369,9 +1431,20 @@ body {
   color: #64748b;
 }
 
-.label-jatisari { top: 38px; left: 45px; }
-.label-walahar { top: 120px; left: 24px; }
-.label-cikampek { top: 220px; right: 28px; }
+.label-jatisari {
+  top: 38px;
+  left: 45px;
+}
+
+.label-walahar {
+  top: 120px;
+  left: 24px;
+}
+
+.label-cikampek {
+  top: 220px;
+  right: 28px;
+}
 
 .basemap-highway-badge {
   position: absolute;
@@ -1388,7 +1461,10 @@ body {
   background: #ffffff;
 }
 
-.badge-h1 { top: 290px; right: 40px; }
+.badge-h1 {
+  top: 290px;
+  right: 40px;
+}
 
 #cilebarMapSvg {
   position: relative;
@@ -1405,7 +1481,7 @@ body {
 }
 
 .desa-polygon:hover {
-  filter: brightness(1.1) drop-shadow(0 2px 6px rgba(0,0,0,0.2));
+  filter: brightness(1.1) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.2));
   stroke-width: 2.2;
 }
 
@@ -1438,7 +1514,7 @@ body {
   right: 18px;
   z-index: 10;
   pointer-events: none;
-  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
 }
 
 /* Bottom Left controls with Google watermark */
@@ -1462,10 +1538,21 @@ body {
   display: inline-block;
 }
 
-.g-blue { color: #4285f4; }
-.g-red { color: #ea4335; }
-.g-yellow { color: #fbbc05; }
-.g-green { color: #34a853; }
+.g-blue {
+  color: #4285f4;
+}
+
+.g-red {
+  color: #ea4335;
+}
+
+.g-yellow {
+  color: #fbbc05;
+}
+
+.g-green {
+  color: #34a853;
+}
 
 .cilebar-legend {
   bottom: 14px;
@@ -1642,6 +1729,37 @@ body {
   color: var(--text-main);
 }
 
+.desa-header-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.desa-header-kecamatan {
+  font-size: 12px;
+  font-weight: 700;
+  color: #1e40af;
+  background-color: #dbeafe;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid #bfdbfe;
+}
+
+.desa-header-year {
+  font-size: 12px;
+  font-weight: 500;
+  color: #475569;
+  background-color: #f1f5f9;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid #e2e8f0;
+}
+
+.desa-header-year strong {
+  font-weight: 700;
+  color: #0f172a;
+}
+
 /* Metric Summary Bar */
 .desa-metric-summary-bar {
   display: flex;
@@ -1682,10 +1800,25 @@ body {
   margin-left: auto;
 }
 
-.tag-green { background-color: #dcfce7; color: #166534; }
-.tag-yellow { background-color: #fef9c3; color: #854d0e; }
-.tag-orange { background-color: #ffedd5; color: #9a3412; }
-.tag-red { background-color: #fee2e2; color: #991b1b; }
+.tag-green {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.tag-yellow {
+  background-color: #fef9c3;
+  color: #854d0e;
+}
+
+.tag-orange {
+  background-color: #ffedd5;
+  color: #9a3412;
+}
+
+.tag-red {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
 
 .mini-stat-card {
   flex: 1;
@@ -1908,32 +2041,41 @@ body {
     grid-template-columns: 1fr 310px;
     gap: 16px;
   }
+
   .kecamatan-5-summary-row {
     grid-template-columns: repeat(3, 1fr);
   }
+
   .kecamatan-middle-grid {
     grid-template-columns: 1fr;
   }
+
   .desa-tax-breakdown-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
   .desa-metric-summary-bar {
     flex-wrap: wrap;
   }
 }
 
 @media (max-width: 1024px) {
-  .page-header, .kecamatan-main-header {
+
+  .page-header,
+  .kecamatan-main-header {
     flex-direction: column;
     gap: 14px;
   }
+
   .header-right {
     align-items: flex-start;
     width: 100%;
   }
+
   .dashboard-body-grid {
     grid-template-columns: 1fr;
   }
+
   .map-card {
     height: 520px;
   }
@@ -1943,33 +2085,41 @@ body {
   .app-layout {
     flex-direction: column;
   }
+
   .sidebar {
     width: 100%;
     min-width: 100%;
     padding: 14px 16px;
   }
+
   .sidebar-menu {
     flex-direction: row;
     overflow-x: auto;
     padding-bottom: 6px;
   }
+
   .sidebar-watermark-footer {
     display: none;
   }
+
   .menu-item {
     padding: 8px 12px;
     white-space: nowrap;
   }
+
   .stats-cards-row {
     flex-direction: column;
     width: 100%;
   }
+
   .stat-card {
     min-width: 100%;
   }
+
   .kecamatan-5-summary-row {
     grid-template-columns: 1fr;
   }
+
   .desa-tax-breakdown-grid {
     grid-template-columns: 1fr;
   }

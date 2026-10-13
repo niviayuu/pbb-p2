@@ -103,6 +103,23 @@ document.addEventListener('DOMContentLoaded', () => {
   const valObyekBelumLunas = document.getElementById('valObyekBelumLunas');
   const valBreakdownPct = document.getElementById('valBreakdownPct');
   const barBreakdownFill = document.getElementById('barBreakdownFill');
+  const desaDetailHeading = document.getElementById('desaDetailHeading');
+  const desaDetailKecamatanBadge = document.getElementById('desaDetailKecamatanBadge');
+  const desaDetailYearText = document.getElementById('desaDetailYearText');
+  const yearSelectKab = document.getElementById('yearSelectKabupaten');
+  const yearSelectKec = document.getElementById('yearSelectKecamatan');
+
+  // Synchronize year selectors across views
+  if (yearSelectKab && yearSelectKec) {
+    yearSelectKab.addEventListener('change', (e) => {
+      yearSelectKec.value = e.target.value;
+      if (desaDetailYearText) desaDetailYearText.textContent = e.target.value;
+    });
+    yearSelectKec.addEventListener('change', (e) => {
+      yearSelectKab.value = e.target.value;
+      if (desaDetailYearText) desaDetailYearText.textContent = e.target.value;
+    });
+  }
 
   // Map Mode Toggle (Peta / Satelit)
   const btnModePeta = document.getElementById('btnModePeta');
@@ -163,15 +180,15 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   btnOpenKecamatanDetail.addEventListener('click', () => {
-    const validKecs = ['cilamaya-kulon', 'tempuran', 'cilebar'];
-    const targetKec = validKecs.includes(selectedKecamatanId) ? selectedKecamatanId : 'cilamaya-kulon';
+    const validKecs = ['purwasari', 'cikampek', 'kotabaru', 'jatisari', 'banyusari', 'cilamaya-wetan', 'cilamaya-kulon', 'tempuran', 'cilebar'];
+    const targetKec = validKecs.includes(selectedKecamatanId) ? selectedKecamatanId : 'purwasari';
     switchView('kecamatan', targetKec);
   });
 
   if (popupHeaderClickable) {
     popupHeaderClickable.addEventListener('click', () => {
-      const validKecs = ['cilamaya-kulon', 'tempuran', 'cilebar'];
-      const targetKec = validKecs.includes(selectedKecamatanId) ? selectedKecamatanId : 'cilamaya-kulon';
+      const validKecs = ['purwasari', 'cikampek', 'kotabaru', 'jatisari', 'banyusari', 'cilamaya-wetan', 'cilamaya-kulon', 'tempuran', 'cilebar'];
+      const targetKec = validKecs.includes(selectedKecamatanId) ? selectedKecamatanId : 'purwasari';
       switchView('kecamatan', targetKec);
     });
   }
@@ -198,8 +215,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Double-click opens detail
       path.addEventListener('dblclick', () => {
-        const validKecs = ['cilamaya-kulon', 'tempuran', 'cilebar'];
-        const targetKec = validKecs.includes(item.id) ? item.id : 'cilamaya-kulon';
+        const validKecs = ['purwasari', 'cikampek', 'kotabaru', 'jatisari', 'banyusari', 'cilamaya-wetan', 'cilamaya-kulon', 'tempuran', 'cilebar'];
+        const targetKec = validKecs.includes(item.id) ? item.id : 'purwasari';
         switchView('kecamatan', targetKec);
       });
 
@@ -238,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const orderPriorityKab = [
     'karawang-barat', 'karawang-timur', 'telukjambe-barat', 'telukjambe-timur',
-    'cikampek', 'klari', 'pedes', 'tegalwaru', 'banyusari', 'cilebar'
+    'purwasari', 'cikampek', 'klari', 'pedes', 'tegalwaru', 'kotabaru', 'jatisari', 'banyusari', 'cilebar', 'tempuran', 'cilamaya-kulon', 'cilamaya-wetan'
   ];
 
   function getSortedKabupatenList() {
@@ -307,8 +324,8 @@ document.addEventListener('DOMContentLoaded', () => {
       chevron.addEventListener('click', (e) => {
         e.stopPropagation();
         selectKecamatan(item.id);
-        const validKecs = ['cilamaya-kulon', 'tempuran', 'cilebar'];
-        const targetKec = validKecs.includes(item.id) ? item.id : 'cilamaya-kulon';
+        const validKecs = ['purwasari', 'cikampek', 'kotabaru', 'jatisari', 'banyusari', 'cilamaya-wetan', 'cilamaya-kulon', 'tempuran', 'cilebar'];
+        const targetKec = validKecs.includes(item.id) ? item.id : 'purwasari';
         switchView('kecamatan', targetKec);
       });
 
@@ -437,17 +454,53 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // =========================================================================
-  // KECAMATAN LEVEL RENDERING & LOGIC (CILEBAR, TEMPURAN & CILAMAYA KULON)
+  // KECAMATAN LEVEL RENDERING & LOGIC (PURWASARI, CIKAMPEK, KOTABARU, JATISARI, BANYUSARI, CILEBAR, TEMPURAN, CILAMAYA KULON & CILAMAYA WETAN)
   // =========================================================================
-  let activeKecamatanId = 'cilamaya-kulon';
+  let activeKecamatanId = 'purwasari';
   let activeDesaData = [];
   let activeSummary = {};
   let activeViewBoxWidth = 600;
-  let activeViewBoxHeight = 938;
+  let activeViewBoxHeight = 1006;
   let currentSortMode = 'default'; // 'default', 'desc', 'asc'
 
   function initKecamatanView(kecId) {
-    if (kecId === 'cilamaya-kulon') {
+    if (kecId === 'purwasari') {
+      activeKecamatanId = 'purwasari';
+      activeDesaData = typeof PURWASARI_DESA_DATA !== 'undefined' ? PURWASARI_DESA_DATA : [];
+      activeSummary = typeof PURWASARI_SUMMARY !== 'undefined' ? PURWASARI_SUMMARY : {};
+      activeViewBoxWidth = typeof PURWASARI_VIEWBOX_WIDTH !== 'undefined' ? PURWASARI_VIEWBOX_WIDTH : 600;
+      activeViewBoxHeight = typeof PURWASARI_VIEWBOX_HEIGHT !== 'undefined' ? PURWASARI_VIEWBOX_HEIGHT : 1006;
+    } else if (kecId === 'cikampek') {
+      activeKecamatanId = 'cikampek';
+      activeDesaData = typeof CIKAMPEK_DESA_DATA !== 'undefined' ? CIKAMPEK_DESA_DATA : [];
+      activeSummary = typeof CIKAMPEK_SUMMARY !== 'undefined' ? CIKAMPEK_SUMMARY : {};
+      activeViewBoxWidth = typeof CIKAMPEK_VIEWBOX_WIDTH !== 'undefined' ? CIKAMPEK_VIEWBOX_WIDTH : 600;
+      activeViewBoxHeight = typeof CIKAMPEK_VIEWBOX_HEIGHT !== 'undefined' ? CIKAMPEK_VIEWBOX_HEIGHT : 632;
+    } else if (kecId === 'kotabaru') {
+      activeKecamatanId = 'kotabaru';
+      activeDesaData = typeof KOTABARU_DESA_DATA !== 'undefined' ? KOTABARU_DESA_DATA : [];
+      activeSummary = typeof KOTABARU_SUMMARY !== 'undefined' ? KOTABARU_SUMMARY : {};
+      activeViewBoxWidth = typeof KOTABARU_VIEWBOX_WIDTH !== 'undefined' ? KOTABARU_VIEWBOX_WIDTH : 600;
+      activeViewBoxHeight = typeof KOTABARU_VIEWBOX_HEIGHT !== 'undefined' ? KOTABARU_VIEWBOX_HEIGHT : 604;
+    } else if (kecId === 'jatisari') {
+      activeKecamatanId = 'jatisari';
+      activeDesaData = typeof JATISARI_DESA_DATA !== 'undefined' ? JATISARI_DESA_DATA : [];
+      activeSummary = typeof JATISARI_SUMMARY !== 'undefined' ? JATISARI_SUMMARY : {};
+      activeViewBoxWidth = typeof JATISARI_VIEWBOX_WIDTH !== 'undefined' ? JATISARI_VIEWBOX_WIDTH : 600;
+      activeViewBoxHeight = typeof JATISARI_VIEWBOX_HEIGHT !== 'undefined' ? JATISARI_VIEWBOX_HEIGHT : 840;
+    } else if (kecId === 'banyusari') {
+      activeKecamatanId = 'banyusari';
+      activeDesaData = typeof BANYUSARI_DESA_DATA !== 'undefined' ? BANYUSARI_DESA_DATA : [];
+      activeSummary = typeof BANYUSARI_SUMMARY !== 'undefined' ? BANYUSARI_SUMMARY : {};
+      activeViewBoxWidth = typeof BANYUSARI_VIEWBOX_WIDTH !== 'undefined' ? BANYUSARI_VIEWBOX_WIDTH : 600;
+      activeViewBoxHeight = typeof BANYUSARI_VIEWBOX_HEIGHT !== 'undefined' ? BANYUSARI_VIEWBOX_HEIGHT : 458;
+    } else if (kecId === 'cilamaya-wetan') {
+      activeKecamatanId = 'cilamaya-wetan';
+      activeDesaData = typeof CILAMAYA_WETAN_DESA_DATA !== 'undefined' ? CILAMAYA_WETAN_DESA_DATA : [];
+      activeSummary = typeof CILAMAYA_WETAN_SUMMARY !== 'undefined' ? CILAMAYA_WETAN_SUMMARY : {};
+      activeViewBoxWidth = typeof CILAMAYA_WETAN_VIEWBOX_WIDTH !== 'undefined' ? CILAMAYA_WETAN_VIEWBOX_WIDTH : 600;
+      activeViewBoxHeight = typeof CILAMAYA_WETAN_VIEWBOX_HEIGHT !== 'undefined' ? CILAMAYA_WETAN_VIEWBOX_HEIGHT : 559;
+    } else if (kecId === 'cilamaya-kulon') {
       activeKecamatanId = 'cilamaya-kulon';
       activeDesaData = typeof CILAMAYA_KULON_DESA_DATA !== 'undefined' ? CILAMAYA_KULON_DESA_DATA : [];
       activeSummary = typeof CILAMAYA_KULON_SUMMARY !== 'undefined' ? CILAMAYA_KULON_SUMMARY : {};
@@ -467,8 +520,14 @@ document.addEventListener('DOMContentLoaded', () => {
       activeViewBoxHeight = typeof CILEBAR_VIEWBOX_HEIGHT !== 'undefined' ? CILEBAR_VIEWBOX_HEIGHT : 742;
     }
 
-    const kecName = activeKecamatanId === 'cilamaya-kulon' ? 'Cilamaya Kulon' 
-                  : (activeKecamatanId === 'tempuran' ? 'Tempuran' : 'Cilebar');
+    const kecName = activeKecamatanId === 'purwasari' ? 'Purwasari'
+      : (activeKecamatanId === 'cikampek' ? 'Cikampek'
+        : (activeKecamatanId === 'kotabaru' ? 'Kotabaru'
+          : (activeKecamatanId === 'jatisari' ? 'Jatisari'
+            : (activeKecamatanId === 'banyusari' ? 'Banyusari'
+              : (activeKecamatanId === 'cilamaya-wetan' ? 'Cilamaya Wetan'
+                : (activeKecamatanId === 'cilamaya-kulon' ? 'Cilamaya Kulon'
+                  : (activeKecamatanId === 'tempuran' ? 'Tempuran' : 'Cilebar')))))));
 
     // 1. Update Titles
     const kecViewTitle = document.getElementById('kecViewTitle');
@@ -499,9 +558,9 @@ document.addEventListener('DOMContentLoaded', () => {
     donutProgressKec.setAttribute('stroke-dasharray', `${Math.min(100, activeSummary.capaian)}, 100`);
 
     const donutColor = activeSummary.tier === 'green' ? '#2ea868'
-                     : activeSummary.tier === 'yellow' ? '#f5d547'
-                     : activeSummary.tier === 'orange' ? '#f59e42'
-                     : '#ea3838';
+      : activeSummary.tier === 'yellow' ? '#f5d547'
+        : activeSummary.tier === 'orange' ? '#f59e42'
+          : '#ea3838';
     donutProgressKec.setAttribute('stroke', donutColor);
 
     kecSumJumlahDesa.textContent = activeSummary.jumlahDesa + ' Desa';
@@ -518,8 +577,14 @@ document.addEventListener('DOMContentLoaded', () => {
     renderDesaTable();
 
     // 7. Default Select initial village
-    const initialDesa = activeKecamatanId === 'cilamaya-kulon' ? 'bayur-kidul' 
-                      : (activeKecamatanId === 'tempuran' ? 'tempuran' : 'sukaratu');
+    const initialDesa = activeKecamatanId === 'purwasari' ? 'mekarjaya'
+      : (activeKecamatanId === 'cikampek' ? 'cikampek-barat'
+        : (activeKecamatanId === 'kotabaru' ? 'cikampek-utara'
+          : (activeKecamatanId === 'jatisari' ? 'balonggandu'
+            : (activeKecamatanId === 'banyusari' ? 'banyuasih'
+              : (activeKecamatanId === 'cilamaya-wetan' ? 'cikalong'
+                : (activeKecamatanId === 'cilamaya-kulon' ? 'bayur-kidul'
+                  : (activeKecamatanId === 'tempuran' ? 'tempuran' : 'sukaratu')))))));
     selectDesa(initialDesa);
   }
 
@@ -568,6 +633,38 @@ document.addEventListener('DOMContentLoaded', () => {
       if (d.name === 'Langensari') { ly -= 2; }
       if (d.name === 'Pasirukem') { ly += 2; }
       if (d.name === 'Sukajaya') { ly -= 4; }
+
+      // Cilamaya Wetan fine-tune offsets
+      if (d.name === 'Muara Baru') { ly -= 2; }
+      if (d.name === 'Rawagempol Kulon') { ly -= 2; }
+      if (d.name === 'Rawagempol Wetan') { ly += 2; }
+      if (d.name === 'Sukatani') { ly += 2; }
+      if (d.name === 'Tegalsari') { ly += 2; }
+
+      // Banyusari fine-tune offsets
+      if (d.name === 'Cicinde Selatan') { ly -= 2; }
+      if (d.name === 'Gempol Kolot') { lx -= 4; }
+      if (d.name === 'Jayamukti') { ly += 2; }
+      if (d.name === 'Tanjung') { ly -= 2; }
+
+      // Jatisari fine-tune offsets
+      if (d.name === 'Cikalongsari') { ly -= 2; }
+      if (d.name === 'Jatiragas') { ly += 2; }
+      if (d.name === 'Barugbug') { ly += 2; }
+      if (d.name === 'Situdam') { lx -= 4; }
+
+      // Kotabaru fine-tune offsets
+      if (d.name === 'Jomin Barat') { lx -= 4; }
+      if (d.name === 'Jomin Timur') { lx += 4; }
+      if (d.name === 'Sarimulya') { ly += 2; }
+
+      // Cikampek fine-tune offsets
+      if (d.name === 'Cikampek Selatan') { lx -= 4; }
+      if (d.name === 'Cikampek Kota') { lx += 4; }
+
+      // Purwasari fine-tune offsets
+      if (d.name === 'Mekarjaya') { lx -= 4; }
+      if (d.name === 'Tamelang') { lx += 4; }
 
       const textName = document.createElementNS('http://www.w3.org/2000/svg', 'text');
       textName.setAttribute('x', lx);
@@ -696,6 +793,26 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function updateBottomDesaSection(d) {
+    const kecName = activeKecamatanId === 'purwasari' ? 'Purwasari'
+      : (activeKecamatanId === 'cikampek' ? 'Cikampek'
+        : (activeKecamatanId === 'kotabaru' ? 'Kotabaru'
+          : (activeKecamatanId === 'jatisari' ? 'Jatisari'
+            : (activeKecamatanId === 'banyusari' ? 'Banyusari'
+              : (activeKecamatanId === 'cilamaya-wetan' ? 'Cilamaya Wetan'
+                : (activeKecamatanId === 'cilamaya-kulon' ? 'Cilamaya Kulon'
+                  : (activeKecamatanId === 'tempuran' ? 'Tempuran' : 'Cilebar')))))));
+
+    if (desaDetailHeading) {
+      desaDetailHeading.textContent = `Detail Desa ${d.name} - Kecamatan ${kecName}`;
+    }
+    if (desaDetailKecamatanBadge) {
+      desaDetailKecamatanBadge.textContent = `Kecamatan ${kecName}`;
+    }
+    const currentYear = (yearSelectKec ? yearSelectKec.value : '2026');
+    if (desaDetailYearText) {
+      desaDetailYearText.textContent = currentYear;
+    }
+
     desaPillTitle.textContent = d.name;
     desaPillDot.className = 'desa-indicator-dot ' + d.statusDotClass;
     desaPillStatusTag.className = 'desa-pill-status-tag tag-' + d.tier;
@@ -709,9 +826,9 @@ document.addEventListener('DOMContentLoaded', () => {
     donutDesaBottom.setAttribute('stroke-dasharray', `${Math.min(100, d.capaian)}, 100`);
     donutDesaBottomCenterPct.textContent = d.capaianFormatted;
     const desaDonutColor = d.tier === 'green' ? '#2ea868'
-                         : d.tier === 'yellow' ? '#f5d547'
-                         : d.tier === 'orange' ? '#f59e42'
-                         : '#ea3838';
+      : d.tier === 'yellow' ? '#f5d547'
+        : d.tier === 'orange' ? '#f59e42'
+          : '#ea3838';
     donutDesaBottom.setAttribute('stroke', desaDonutColor);
 
     // Advisory
@@ -818,13 +935,19 @@ document.addEventListener('DOMContentLoaded', () => {
   function handleHash() {
     const hash = window.location.hash;
     if (hash.startsWith('#kecamatan')) {
-      const kecId = hash.replace('#kecamatan-', '') || 'cilamaya-kulon';
+      const kecId = hash.replace('#kecamatan-', '') || 'purwasari';
       switchView('kecamatan', kecId);
     } else if (hash.startsWith('#desa')) {
       const desaId = hash.replace('#desa-', '');
-      const inCilamaya = typeof CILAMAYA_KULON_DESA_DATA !== 'undefined' && CILAMAYA_KULON_DESA_DATA.some(d => d.id === desaId);
+      const inPurwasari = typeof PURWASARI_DESA_DATA !== 'undefined' && PURWASARI_DESA_DATA.some(d => d.id === desaId);
+      const inCikampek = typeof CIKAMPEK_DESA_DATA !== 'undefined' && CIKAMPEK_DESA_DATA.some(d => d.id === desaId);
+      const inKotabaru = typeof KOTABARU_DESA_DATA !== 'undefined' && KOTABARU_DESA_DATA.some(d => d.id === desaId);
+      const inJatisari = typeof JATISARI_DESA_DATA !== 'undefined' && JATISARI_DESA_DATA.some(d => d.id === desaId);
+      const inBanyusari = typeof BANYUSARI_DESA_DATA !== 'undefined' && BANYUSARI_DESA_DATA.some(d => d.id === desaId);
+      const inCilamayaWetan = typeof CILAMAYA_WETAN_DESA_DATA !== 'undefined' && CILAMAYA_WETAN_DESA_DATA.some(d => d.id === desaId);
+      const inCilamayaKulon = typeof CILAMAYA_KULON_DESA_DATA !== 'undefined' && CILAMAYA_KULON_DESA_DATA.some(d => d.id === desaId);
       const inTempuran = typeof TEMPURAN_DESA_DATA !== 'undefined' && TEMPURAN_DESA_DATA.some(d => d.id === desaId);
-      const targetKec = inCilamaya ? 'cilamaya-kulon' : (inTempuran ? 'tempuran' : 'cilebar');
+      const targetKec = inPurwasari ? 'purwasari' : (inCikampek ? 'cikampek' : (inKotabaru ? 'kotabaru' : (inJatisari ? 'jatisari' : (inBanyusari ? 'banyusari' : (inCilamayaWetan ? 'cilamaya-wetan' : (inCilamayaKulon ? 'cilamaya-kulon' : (inTempuran ? 'tempuran' : 'cilebar')))))));
       switchView('kecamatan', targetKec);
       setTimeout(() => selectDesa(desaId), 100);
     } else {
