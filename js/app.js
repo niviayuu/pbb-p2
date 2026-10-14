@@ -180,14 +180,14 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   btnOpenKecamatanDetail.addEventListener('click', () => {
-    const validKecs = ['klari', 'purwasari', 'cikampek', 'kotabaru', 'jatisari', 'banyusari', 'cilamaya-wetan', 'cilamaya-kulon', 'tempuran', 'cilebar'];
+    const validKecs = ['klari', 'ciampel', 'purwasari', 'cikampek', 'kotabaru', 'jatisari', 'banyusari', 'cilamaya-wetan', 'cilamaya-kulon', 'tempuran', 'cilebar'];
     const targetKec = validKecs.includes(selectedKecamatanId) ? selectedKecamatanId : 'purwasari';
     switchView('kecamatan', targetKec);
   });
 
   if (popupHeaderClickable) {
     popupHeaderClickable.addEventListener('click', () => {
-      const validKecs = ['klari', 'purwasari', 'cikampek', 'kotabaru', 'jatisari', 'banyusari', 'cilamaya-wetan', 'cilamaya-kulon', 'tempuran', 'cilebar'];
+      const validKecs = ['klari', 'ciampel', 'purwasari', 'cikampek', 'kotabaru', 'jatisari', 'banyusari', 'cilamaya-wetan', 'cilamaya-kulon', 'tempuran', 'cilebar'];
       const targetKec = validKecs.includes(selectedKecamatanId) ? selectedKecamatanId : 'purwasari';
       switchView('kecamatan', targetKec);
     });
@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Double-click opens detail
       path.addEventListener('dblclick', () => {
-        const validKecs = ['klari', 'purwasari', 'cikampek', 'kotabaru', 'jatisari', 'banyusari', 'cilamaya-wetan', 'cilamaya-kulon', 'tempuran', 'cilebar'];
+        const validKecs = ['klari', 'ciampel', 'purwasari', 'cikampek', 'kotabaru', 'jatisari', 'banyusari', 'cilamaya-wetan', 'cilamaya-kulon', 'tempuran', 'cilebar'];
         const targetKec = validKecs.includes(item.id) ? item.id : 'purwasari';
         switchView('kecamatan', targetKec);
       });
@@ -325,7 +325,7 @@ document.addEventListener('DOMContentLoaded', () => {
       chevron.addEventListener('click', (e) => {
         e.stopPropagation();
         selectKecamatan(item.id);
-        const validKecs = ['klari', 'purwasari', 'cikampek', 'kotabaru', 'jatisari', 'banyusari', 'cilamaya-wetan', 'cilamaya-kulon', 'tempuran', 'cilebar'];
+        const validKecs = ['klari', 'ciampel', 'purwasari', 'cikampek', 'kotabaru', 'jatisari', 'banyusari', 'cilamaya-wetan', 'cilamaya-kulon', 'tempuran', 'cilebar'];
         const targetKec = validKecs.includes(item.id) ? item.id : 'purwasari';
         switchView('kecamatan', targetKec);
       });
@@ -471,6 +471,12 @@ document.addEventListener('DOMContentLoaded', () => {
       activeSummary = typeof KLARI_SUMMARY !== 'undefined' ? KLARI_SUMMARY : {};
       activeViewBoxWidth = typeof KLARI_VIEWBOX_WIDTH !== 'undefined' ? KLARI_VIEWBOX_WIDTH : 600;
       activeViewBoxHeight = typeof KLARI_VIEWBOX_HEIGHT !== 'undefined' ? KLARI_VIEWBOX_HEIGHT : 770;
+    } else if (kecId === 'ciampel') {
+      activeKecamatanId = 'ciampel';
+      activeDesaData = typeof CIAMPEL_DESA_DATA !== 'undefined' ? CIAMPEL_DESA_DATA : [];
+      activeSummary = typeof CIAMPEL_SUMMARY !== 'undefined' ? CIAMPEL_SUMMARY : {};
+      activeViewBoxWidth = typeof CIAMPEL_VIEWBOX_WIDTH !== 'undefined' ? CIAMPEL_VIEWBOX_WIDTH : 600;
+      activeViewBoxHeight = typeof CIAMPEL_VIEWBOX_HEIGHT !== 'undefined' ? CIAMPEL_VIEWBOX_HEIGHT : 784;
     } else if (kecId === 'purwasari') {
       activeKecamatanId = 'purwasari';
       activeDesaData = typeof PURWASARI_DESA_DATA !== 'undefined' ? PURWASARI_DESA_DATA : [];
@@ -528,14 +534,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const kecName = activeKecamatanId === 'klari' ? 'Klari'
-      : (activeKecamatanId === 'purwasari' ? 'Purwasari'
-        : (activeKecamatanId === 'cikampek' ? 'Cikampek'
-          : (activeKecamatanId === 'kotabaru' ? 'Kotabaru'
-            : (activeKecamatanId === 'jatisari' ? 'Jatisari'
-              : (activeKecamatanId === 'banyusari' ? 'Banyusari'
-                : (activeKecamatanId === 'cilamaya-wetan' ? 'Cilamaya Wetan'
-                  : (activeKecamatanId === 'cilamaya-kulon' ? 'Cilamaya Kulon'
-                    : (activeKecamatanId === 'tempuran' ? 'Tempuran' : 'Cilebar'))))))));
+      : (activeKecamatanId === 'ciampel' ? 'Ciampel'
+        : (activeKecamatanId === 'purwasari' ? 'Purwasari'
+          : (activeKecamatanId === 'cikampek' ? 'Cikampek'
+            : (activeKecamatanId === 'kotabaru' ? 'Kotabaru'
+              : (activeKecamatanId === 'jatisari' ? 'Jatisari'
+                : (activeKecamatanId === 'banyusari' ? 'Banyusari'
+                  : (activeKecamatanId === 'cilamaya-wetan' ? 'Cilamaya Wetan'
+                    : (activeKecamatanId === 'cilamaya-kulon' ? 'Cilamaya Kulon'
+                      : (activeKecamatanId === 'tempuran' ? 'Tempuran' : 'Cilebar')))))))));
 
     // 1. Update Titles
     const kecViewTitle = document.getElementById('kecViewTitle');
@@ -585,14 +592,15 @@ document.addEventListener('DOMContentLoaded', () => {
     renderDesaTable();
     // 7. Default Select initial village
     const initialDesa = activeKecamatanId === 'klari' ? 'anggadita'
-      : (activeKecamatanId === 'purwasari' ? 'mekarjaya'
-        : (activeKecamatanId === 'cikampek' ? 'cikampek-barat'
-          : (activeKecamatanId === 'kotabaru' ? 'cikampek-utara'
-            : (activeKecamatanId === 'jatisari' ? 'balonggandu'
-              : (activeKecamatanId === 'banyusari' ? 'banyuasih'
-                : (activeKecamatanId === 'cilamaya-wetan' ? 'cikalong'
-                  : (activeKecamatanId === 'cilamaya-kulon' ? 'bayur-kidul'
-                    : (activeKecamatanId === 'tempuran' ? 'tempuran' : 'sukaratu'))))))));
+      : (activeKecamatanId === 'ciampel' ? 'kutamekar'
+        : (activeKecamatanId === 'purwasari' ? 'mekarjaya'
+          : (activeKecamatanId === 'cikampek' ? 'cikampek-barat'
+            : (activeKecamatanId === 'kotabaru' ? 'cikampek-utara'
+              : (activeKecamatanId === 'jatisari' ? 'balonggandu'
+                : (activeKecamatanId === 'banyusari' ? 'banyuasih'
+                  : (activeKecamatanId === 'cilamaya-wetan' ? 'cikalong'
+                    : (activeKecamatanId === 'cilamaya-kulon' ? 'bayur-kidul'
+                      : (activeKecamatanId === 'tempuran' ? 'tempuran' : 'sukaratu')))))))));
     selectDesa(initialDesa);
   }
 
@@ -677,6 +685,10 @@ document.addEventListener('DOMContentLoaded', () => {
       // Klari fine-tune offsets
       if (d.name === 'Klari') { lx -= 4; }
       if (d.name === 'Duren') { lx += 4; }
+
+      // Ciampel fine-tune offsets
+      if (d.name === 'Kutamekar') { ly -= 2; }
+      if (d.name === 'Parungmulya') { lx += 2; }
 
 
 
@@ -808,14 +820,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function updateBottomDesaSection(d) {
     const kecName = activeKecamatanId === 'klari' ? 'Klari'
-      : (activeKecamatanId === 'purwasari' ? 'Purwasari'
-        : (activeKecamatanId === 'cikampek' ? 'Cikampek'
-          : (activeKecamatanId === 'kotabaru' ? 'Kotabaru'
-            : (activeKecamatanId === 'jatisari' ? 'Jatisari'
-              : (activeKecamatanId === 'banyusari' ? 'Banyusari'
-                : (activeKecamatanId === 'cilamaya-wetan' ? 'Cilamaya Wetan'
-                  : (activeKecamatanId === 'cilamaya-kulon' ? 'Cilamaya Kulon'
-                    : (activeKecamatanId === 'tempuran' ? 'Tempuran' : 'Cilebar'))))))));
+      : (activeKecamatanId === 'ciampel' ? 'Ciampel'
+        : (activeKecamatanId === 'purwasari' ? 'Purwasari'
+          : (activeKecamatanId === 'cikampek' ? 'Cikampek'
+            : (activeKecamatanId === 'kotabaru' ? 'Kotabaru'
+              : (activeKecamatanId === 'jatisari' ? 'Jatisari'
+                : (activeKecamatanId === 'banyusari' ? 'Banyusari'
+                  : (activeKecamatanId === 'cilamaya-wetan' ? 'Cilamaya Wetan'
+                    : (activeKecamatanId === 'cilamaya-kulon' ? 'Cilamaya Kulon'
+                      : (activeKecamatanId === 'tempuran' ? 'Tempuran' : 'Cilebar')))))))));
 
     if (desaDetailHeading) {
       desaDetailHeading.textContent = `Detail Desa ${d.name} - Kecamatan ${kecName}`;
@@ -955,6 +968,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (hash.startsWith('#desa')) {
       const desaId = hash.replace('#desa-', '');
       const inKlari = typeof KLARI_DESA_DATA !== 'undefined' && KLARI_DESA_DATA.some(d => d.id === desaId);
+      const inCiampel = typeof CIAMPEL_DESA_DATA !== 'undefined' && CIAMPEL_DESA_DATA.some(d => d.id === desaId);
       const inPurwasari = typeof PURWASARI_DESA_DATA !== 'undefined' && PURWASARI_DESA_DATA.some(d => d.id === desaId);
       const inCikampek = typeof CIKAMPEK_DESA_DATA !== 'undefined' && CIKAMPEK_DESA_DATA.some(d => d.id === desaId);
       const inKotabaru = typeof KOTABARU_DESA_DATA !== 'undefined' && KOTABARU_DESA_DATA.some(d => d.id === desaId);
@@ -963,7 +977,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const inCilamayaWetan = typeof CILAMAYA_WETAN_DESA_DATA !== 'undefined' && CILAMAYA_WETAN_DESA_DATA.some(d => d.id === desaId);
       const inCilamayaKulon = typeof CILAMAYA_KULON_DESA_DATA !== 'undefined' && CILAMAYA_KULON_DESA_DATA.some(d => d.id === desaId);
       const inTempuran = typeof TEMPURAN_DESA_DATA !== 'undefined' && TEMPURAN_DESA_DATA.some(d => d.id === desaId);
-      const targetKec = inKlari ? 'klari' : (inPurwasari ? 'purwasari' : (inCikampek ? 'cikampek' : (inKotabaru ? 'kotabaru' : (inJatisari ? 'jatisari' : (inBanyusari ? 'banyusari' : (inCilamayaWetan ? 'cilamaya-wetan' : (inCilamayaKulon ? 'cilamaya-kulon' : (inTempuran ? 'tempuran' : 'cilebar'))))))));
+      const targetKec = inKlari ? 'klari' : (inCiampel ? 'ciampel' : (inPurwasari ? 'purwasari' : (inCikampek ? 'cikampek' : (inKotabaru ? 'kotabaru' : (inJatisari ? 'jatisari' : (inBanyusari ? 'banyusari' : (inCilamayaWetan ? 'cilamaya-wetan' : (inCilamayaKulon ? 'cilamaya-kulon' : (inTempuran ? 'tempuran' : 'cilebar')))))))));
       switchView('kecamatan', targetKec);
       setTimeout(() => selectDesa(desaId), 100);
     } else {

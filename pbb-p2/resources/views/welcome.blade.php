@@ -863,6 +863,7 @@
   <script src="assets/cikampek_data.js"></script>
   <script src="assets/purwasari_data.js"></script>
   <script src="assets/klari_data.js"></script>
+  <script src="assets/ciampel_data.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
