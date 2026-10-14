@@ -232,6 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (item.name === 'Rawamerta') { lx -= 5; ly += 5; }
       if (item.name === 'Purwasari') { lx += 5; }
       if (item.name === 'Klari') { ly -= 5; }
+      if (item.name === 'Ciampel') { ly -= 2; }
       if (item.name === 'Tirtamulya') { lx += 2; }
       if (item.name === 'Telukjambe Timur') { ly -= 2; }
 
@@ -255,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const orderPriorityKab = [
     'karawang-barat', 'karawang-timur', 'telukjambe-barat', 'telukjambe-timur',
-    'purwasari', 'cikampek', 'klari', 'pedes', 'tegalwaru', 'kotabaru', 'jatisari', 'banyusari', 'cilebar', 'tempuran', 'cilamaya-kulon', 'cilamaya-wetan'
+    'tegalwaru', 'ciampel', 'purwasari', 'cikampek', 'klari', 'pedes', 'kotabaru', 'jatisari', 'banyusari', 'cilebar', 'tempuran', 'cilamaya-kulon', 'cilamaya-wetan'
   ];
 
   function getSortedKabupatenList() {
@@ -575,7 +576,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 6. Render Village Table
     renderDesaTable();
-
     // 7. Default Select initial village
     const initialDesa = activeKecamatanId === 'purwasari' ? 'mekarjaya'
       : (activeKecamatanId === 'cikampek' ? 'cikampek-barat'
@@ -665,6 +665,8 @@ document.addEventListener('DOMContentLoaded', () => {
       // Purwasari fine-tune offsets
       if (d.name === 'Mekarjaya') { lx -= 4; }
       if (d.name === 'Tamelang') { lx += 4; }
+
+
 
       const textName = document.createElementNS('http://www.w3.org/2000/svg', 'text');
       textName.setAttribute('x', lx);
