@@ -871,6 +871,7 @@
   <script src="assets/karawang_timur_data.js"></script>
   <script src="assets/majalaya_data.js"></script>
   <script src="assets/talagasari_data.js"></script>
+  <script src="assets/lemahabang_data.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
