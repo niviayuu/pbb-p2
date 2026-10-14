@@ -867,6 +867,7 @@
   <script src="assets/tegalwaru_data.js"></script>
   <script src="assets/pangkalan_data.js"></script>
   <script src="assets/telukjambe_barat_data.js"></script>
+  <script src="assets/telukjambe_timur_data.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
