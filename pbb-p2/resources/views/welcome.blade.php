@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body data-initial-kecamatan="{{ $initialKecamatan ?? '' }}">
   <div class="app-layout">
     <!-- SIDEBAR -->
     <aside class="sidebar">

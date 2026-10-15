@@ -162,7 +162,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Initialize or refresh Kecamatan view
       initKecamatanView(kecId);
-      window.location.hash = '#kecamatan-' + kecId;
+      const cleanKec = String(kecId).toLowerCase().trim().replace(/^[#\/]+/, '').replace(/^kecamatan[-/]/, '') || 'cilebar';
+      if (window.location.hash !== '#kecamatan-' + cleanKec) {
+        window.location.hash = '#kecamatan-' + cleanKec;
+      }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       viewKecamatan.style.display = 'none';
@@ -170,7 +173,9 @@ document.addEventListener('DOMContentLoaded', () => {
       viewKabupaten.style.display = 'block';
       viewKabupaten.classList.add('active');
 
-      window.location.hash = '#kabupaten';
+      if (window.location.hash !== '#kabupaten') {
+        window.location.hash = '#kabupaten';
+      }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
@@ -319,6 +324,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
       row.addEventListener('click', () => {
         selectKecamatan(item.id);
+        const validKecs = ['tirtamulya', 'lemahabang', 'talagasari', 'majalaya', 'karawang-timur', 'telukjambe-timur', 'telukjambe-barat', 'pangkalan', 'klari', 'ciampel', 'tegalwaru', 'purwasari', 'cikampek', 'kotabaru', 'jatisari', 'banyusari', 'cilamaya-wetan', 'cilamaya-kulon', 'tempuran', 'cilebar'];
+        if (validKecs.includes(item.id)) {
+          switchView('kecamatan', item.id);
+        }
       });
 
       // Chevron click opens detail view
@@ -465,6 +474,10 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentSortMode = 'default'; // 'default', 'desc', 'asc'
 
   function initKecamatanView(kecId) {
+    if (typeof kecId === 'string') {
+      kecId = kecId.toLowerCase().trim().replace(/^[#\/]+/, '').replace(/^kecamatan[-/]/, '');
+    }
+    if (!kecId) kecId = 'cilebar';
     if (kecId === 'lemahabang') {
       activeKecamatanId = 'lemahabang';
       activeDesaData = typeof LEMAHABANG_DESA_DATA !== 'undefined' ? LEMAHABANG_DESA_DATA : [];
@@ -1061,14 +1074,43 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Hash Routing support
+  // Hash & Route Routing support
   function handleHash() {
-    const hash = window.location.hash;
-    if (hash.startsWith('#kecamatan')) {
-      const kecId = hash.replace('#kecamatan-', '') || 'purwasari';
-      switchView('kecamatan', kecId);
-    } else if (hash.startsWith('#desa')) {
-      const desaId = hash.replace('#desa-', '');
+    const validKecs = ['tirtamulya', 'lemahabang', 'talagasari', 'majalaya', 'karawang-timur', 'telukjambe-timur', 'telukjambe-barat', 'pangkalan', 'klari', 'ciampel', 'tegalwaru', 'purwasari', 'cikampek', 'kotabaru', 'jatisari', 'banyusari', 'cilamaya-wetan', 'cilamaya-kulon', 'tempuran', 'cilebar'];
+
+    // 1. Query parameter (?kecamatan=... or ?kec=...)
+    if (window.location.search) {
+      const params = new URLSearchParams(window.location.search);
+      const qKec = (params.get('kecamatan') || params.get('kec') || '').toLowerCase().trim();
+      if (qKec && validKecs.includes(qKec)) {
+        switchView('kecamatan', qKec);
+        return;
+      }
+    }
+
+    // 2. Path parameter (/kecamatan/... or /...)
+    const pathParts = (window.location.pathname || '').toLowerCase().split('/').filter(Boolean);
+    for (const part of pathParts) {
+      if (validKecs.includes(part)) {
+        switchView('kecamatan', part);
+        return;
+      }
+    }
+
+    // 3. Body dataset attribute (e.g. from Laravel blade view)
+    if (document.body && document.body.dataset && document.body.dataset.initialKecamatan) {
+      const bKec = document.body.dataset.initialKecamatan.toLowerCase().trim();
+      if (validKecs.includes(bKec)) {
+        switchView('kecamatan', bKec);
+        return;
+      }
+    }
+
+    const hash = window.location.hash || '';
+    const cleanHash = hash.toLowerCase().trim().replace(/^[#\/]+/, '');
+
+    if (hash.startsWith('#desa') || cleanHash.startsWith('desa-') || cleanHash.startsWith('desa/')) {
+      const desaId = cleanHash.replace(/^desa[-/]/, '') || hash.replace('#desa-', '');
       const inLemahabang = typeof LEMAHABANG_DESA_DATA !== 'undefined' && LEMAHABANG_DESA_DATA.some(d => d.id === desaId);
       const inTalagasari = typeof TALAGASARI_DESA_DATA !== 'undefined' && TALAGASARI_DESA_DATA.some(d => d.id === desaId);
       const inMajalaya = typeof MAJALAYA_DESA_DATA !== 'undefined' && MAJALAYA_DESA_DATA.some(d => d.id === desaId);
@@ -1091,12 +1133,38 @@ document.addEventListener('DOMContentLoaded', () => {
       const targetKec = inLemahabang ? 'lemahabang' : (inTalagasari ? 'talagasari' : (inMajalaya ? 'majalaya' : (inKarawangTimur ? 'karawang-timur' : (inTelukjambeTimur ? 'telukjambe-timur' : (inTelukjambeBarat ? 'telukjambe-barat' : (inPangkalan ? 'pangkalan' : (inKlari ? 'klari' : (inCiampel ? 'ciampel' : (inTegalwaru ? 'tegalwaru' : (inPurwasari ? 'purwasari' : (inCikampek ? 'cikampek' : (inKotabaru ? 'kotabaru' : (inJatisari ? 'jatisari' : (inBanyusari ? 'banyusari' : (inCilamayaWetan ? 'cilamaya-wetan' : (inCilamayaKulon ? 'cilamaya-kulon' : (inTempuran ? 'tempuran' : (inTirtamulya ? 'tirtamulya' : 'cilebar'))))))))))))))))));
       switchView('kecamatan', targetKec);
       setTimeout(() => selectDesa(desaId), 100);
-    } else {
+      return;
+    }
+
+    if (hash.startsWith('#kecamatan') || cleanHash.startsWith('kecamatan-') || cleanHash.startsWith('kecamatan/')) {
+      const kecId = cleanHash.replace(/^kecamatan[-/]/, '') || hash.replace('#kecamatan-', '') || 'purwasari';
+      const targetKec = validKecs.includes(kecId) ? kecId : 'purwasari';
+      switchView('kecamatan', targetKec);
+      return;
+    }
+
+    if (validKecs.includes(cleanHash)) {
+      switchView('kecamatan', cleanHash);
+      return;
+    }
+
+    if (cleanHash === 'kabupaten' || cleanHash === 'peta' || cleanHash === 'beranda') {
       switchView('kabupaten');
     }
   }
 
   window.addEventListener('hashchange', handleHash);
+  window.addEventListener('popstate', handleHash);
+
+  // Global click delegator for any menu item, button or link targeting kecamatan
+  document.addEventListener('click', (e) => {
+    const tirtamulyaTrigger = e.target.closest('#menu-tirtamulya, .btn-tirtamulya, [data-kecamatan="tirtamulya"], a[href*="tirtamulya"]');
+    if (tirtamulyaTrigger && !tirtamulyaTrigger.closest('#viewKecamatan')) {
+      e.preventDefault();
+      selectKecamatan('tirtamulya');
+      switchView('kecamatan', 'tirtamulya');
+    }
+  });
 
   // =========================================================================
   // INITIAL LOAD
@@ -1105,8 +1173,6 @@ document.addEventListener('DOMContentLoaded', () => {
   renderKabupatenList();
   selectKecamatan('karawang-barat');
 
-  // Check if initial hash is set
-  if (window.location.hash) {
-    handleHash();
-  }
+  // Check if initial hash, search query, or path is set
+  handleHash();
 });
