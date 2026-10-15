@@ -872,6 +872,7 @@
   <script src="assets/majalaya_data.js"></script>
   <script src="assets/talagasari_data.js"></script>
   <script src="assets/lemahabang_data.js"></script>
+  <script src="assets/tirtamulya_data.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

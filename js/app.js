@@ -180,14 +180,14 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   btnOpenKecamatanDetail.addEventListener('click', () => {
-    const validKecs = ['lemahabang', 'talagasari', 'majalaya', 'karawang-timur', 'telukjambe-timur', 'telukjambe-barat', 'pangkalan', 'klari', 'ciampel', 'tegalwaru', 'purwasari', 'cikampek', 'kotabaru', 'jatisari', 'banyusari', 'cilamaya-wetan', 'cilamaya-kulon', 'tempuran', 'cilebar'];
+    const validKecs = ['tirtamulya', 'lemahabang', 'talagasari', 'majalaya', 'karawang-timur', 'telukjambe-timur', 'telukjambe-barat', 'pangkalan', 'klari', 'ciampel', 'tegalwaru', 'purwasari', 'cikampek', 'kotabaru', 'jatisari', 'banyusari', 'cilamaya-wetan', 'cilamaya-kulon', 'tempuran', 'cilebar'];
     const targetKec = validKecs.includes(selectedKecamatanId) ? selectedKecamatanId : 'purwasari';
     switchView('kecamatan', targetKec);
   });
 
   if (popupHeaderClickable) {
     popupHeaderClickable.addEventListener('click', () => {
-      const validKecs = ['lemahabang', 'talagasari', 'majalaya', 'karawang-timur', 'telukjambe-timur', 'telukjambe-barat', 'pangkalan', 'klari', 'ciampel', 'tegalwaru', 'purwasari', 'cikampek', 'kotabaru', 'jatisari', 'banyusari', 'cilamaya-wetan', 'cilamaya-kulon', 'tempuran', 'cilebar'];
+      const validKecs = ['tirtamulya', 'lemahabang', 'talagasari', 'majalaya', 'karawang-timur', 'telukjambe-timur', 'telukjambe-barat', 'pangkalan', 'klari', 'ciampel', 'tegalwaru', 'purwasari', 'cikampek', 'kotabaru', 'jatisari', 'banyusari', 'cilamaya-wetan', 'cilamaya-kulon', 'tempuran', 'cilebar'];
       const targetKec = validKecs.includes(selectedKecamatanId) ? selectedKecamatanId : 'purwasari';
       switchView('kecamatan', targetKec);
     });
@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Double-click opens detail
       path.addEventListener('dblclick', () => {
-        const validKecs = ['lemahabang', 'talagasari', 'majalaya', 'karawang-timur', 'telukjambe-timur', 'telukjambe-barat', 'pangkalan', 'klari', 'ciampel', 'tegalwaru', 'purwasari', 'cikampek', 'kotabaru', 'jatisari', 'banyusari', 'cilamaya-wetan', 'cilamaya-kulon', 'tempuran', 'cilebar'];
+        const validKecs = ['tirtamulya', 'lemahabang', 'talagasari', 'majalaya', 'karawang-timur', 'telukjambe-timur', 'telukjambe-barat', 'pangkalan', 'klari', 'ciampel', 'tegalwaru', 'purwasari', 'cikampek', 'kotabaru', 'jatisari', 'banyusari', 'cilamaya-wetan', 'cilamaya-kulon', 'tempuran', 'cilebar'];
         const targetKec = validKecs.includes(item.id) ? item.id : 'purwasari';
         switchView('kecamatan', targetKec);
       });
@@ -256,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const orderPriorityKab = [
     'karawang-barat', 'karawang-timur', 'majalaya', 'talagasari', 'lemahabang', 'telukjambe-barat', 'telukjambe-timur',
-    'tegalwaru', 'ciampel', 'purwasari', 'cikampek', 'klari', 'pedes', 'kotabaru', 'jatisari', 'banyusari', 'cilebar', 'tempuran', 'cilamaya-kulon', 'cilamaya-wetan'
+    'tegalwaru', 'ciampel', 'purwasari', 'cikampek', 'klari', 'pedes', 'kotabaru', 'jatisari', 'banyusari', 'tirtamulya', 'cilebar', 'tempuran', 'cilamaya-kulon', 'cilamaya-wetan'
   ];
 
   function getSortedKabupatenList() {
@@ -325,7 +325,7 @@ document.addEventListener('DOMContentLoaded', () => {
       chevron.addEventListener('click', (e) => {
         e.stopPropagation();
         selectKecamatan(item.id);
-        const validKecs = ['lemahabang', 'talagasari', 'majalaya', 'karawang-timur', 'telukjambe-timur', 'telukjambe-barat', 'pangkalan', 'klari', 'ciampel', 'tegalwaru', 'purwasari', 'cikampek', 'kotabaru', 'jatisari', 'banyusari', 'cilamaya-wetan', 'cilamaya-kulon', 'tempuran', 'cilebar'];
+        const validKecs = ['tirtamulya', 'lemahabang', 'talagasari', 'majalaya', 'karawang-timur', 'telukjambe-timur', 'telukjambe-barat', 'pangkalan', 'klari', 'ciampel', 'tegalwaru', 'purwasari', 'cikampek', 'kotabaru', 'jatisari', 'banyusari', 'cilamaya-wetan', 'cilamaya-kulon', 'tempuran', 'cilebar'];
         const targetKec = validKecs.includes(item.id) ? item.id : 'purwasari';
         switchView('kecamatan', targetKec);
       });
@@ -573,6 +573,12 @@ document.addEventListener('DOMContentLoaded', () => {
       activeSummary = typeof TEMPURAN_SUMMARY !== 'undefined' ? TEMPURAN_SUMMARY : {};
       activeViewBoxWidth = typeof TEMPURAN_VIEWBOX_WIDTH !== 'undefined' ? TEMPURAN_VIEWBOX_WIDTH : 600;
       activeViewBoxHeight = typeof TEMPURAN_VIEWBOX_HEIGHT !== 'undefined' ? TEMPURAN_VIEWBOX_HEIGHT : 593;
+    } else if (kecId === 'tirtamulya') {
+      activeKecamatanId = 'tirtamulya';
+      activeDesaData = typeof TIRTAMULYA_DESA_DATA !== 'undefined' ? TIRTAMULYA_DESA_DATA : [];
+      activeSummary = typeof TIRTAMULYA_SUMMARY !== 'undefined' ? TIRTAMULYA_SUMMARY : {};
+      activeViewBoxWidth = typeof TIRTAMULYA_VIEWBOX_WIDTH !== 'undefined' ? TIRTAMULYA_VIEWBOX_WIDTH : 600;
+      activeViewBoxHeight = typeof TIRTAMULYA_VIEWBOX_HEIGHT !== 'undefined' ? TIRTAMULYA_VIEWBOX_HEIGHT : 719;
     } else {
       activeKecamatanId = 'cilebar';
       activeDesaData = typeof CILEBAR_DESA_DATA !== 'undefined' ? CILEBAR_DESA_DATA : [];
@@ -598,7 +604,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                 : (activeKecamatanId === 'banyusari' ? 'Banyusari'
                                   : (activeKecamatanId === 'cilamaya-wetan' ? 'Cilamaya Wetan'
                                     : (activeKecamatanId === 'cilamaya-kulon' ? 'Cilamaya Kulon'
-                                      : (activeKecamatanId === 'tempuran' ? 'Tempuran' : 'Cilebar')))))))))))))))));
+                                      : (activeKecamatanId === 'tempuran' ? 'Tempuran'
+                                        : (activeKecamatanId === 'tirtamulya' ? 'Tirtamulya' : 'Cilebar'))))))))))))))))));
 
     // 1. Update Titles
     const kecViewTitle = document.getElementById('kecViewTitle');
@@ -664,7 +671,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                 : (activeKecamatanId === 'banyusari' ? 'banyuasih'
                                   : (activeKecamatanId === 'cilamaya-wetan' ? 'cikalong'
                                     : (activeKecamatanId === 'cilamaya-kulon' ? 'bayur-kidul'
-                                      : (activeKecamatanId === 'tempuran' ? 'tempuran' : 'sukaratu')))))))))))))))));
+                                      : (activeKecamatanId === 'tempuran' ? 'tempuran'
+                                        : (activeKecamatanId === 'tirtamulya' ? 'karangsinom' : 'sukaratu'))))))))))))))))));
     selectDesa(initialDesa);
   }
 
@@ -921,7 +929,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                 : (activeKecamatanId === 'banyusari' ? 'Banyusari'
                                   : (activeKecamatanId === 'cilamaya-wetan' ? 'Cilamaya Wetan'
                                     : (activeKecamatanId === 'cilamaya-kulon' ? 'Cilamaya Kulon'
-                                      : (activeKecamatanId === 'tempuran' ? 'Tempuran' : 'Cilebar')))))))))))))))));
+                                      : (activeKecamatanId === 'tempuran' ? 'Tempuran'
+                                        : (activeKecamatanId === 'tirtamulya' ? 'Tirtamulya' : 'Cilebar'))))))))))))))))));
 
     if (desaDetailHeading) {
       desaDetailHeading.textContent = `Detail Desa ${d.name} - Kecamatan ${kecName}`;
@@ -1078,7 +1087,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const inCilamayaWetan = typeof CILAMAYA_WETAN_DESA_DATA !== 'undefined' && CILAMAYA_WETAN_DESA_DATA.some(d => d.id === desaId);
       const inCilamayaKulon = typeof CILAMAYA_KULON_DESA_DATA !== 'undefined' && CILAMAYA_KULON_DESA_DATA.some(d => d.id === desaId);
       const inTempuran = typeof TEMPURAN_DESA_DATA !== 'undefined' && TEMPURAN_DESA_DATA.some(d => d.id === desaId);
-      const targetKec = inLemahabang ? 'lemahabang' : (inTalagasari ? 'talagasari' : (inMajalaya ? 'majalaya' : (inKarawangTimur ? 'karawang-timur' : (inTelukjambeTimur ? 'telukjambe-timur' : (inTelukjambeBarat ? 'telukjambe-barat' : (inPangkalan ? 'pangkalan' : (inKlari ? 'klari' : (inCiampel ? 'ciampel' : (inTegalwaru ? 'tegalwaru' : (inPurwasari ? 'purwasari' : (inCikampek ? 'cikampek' : (inKotabaru ? 'kotabaru' : (inJatisari ? 'jatisari' : (inBanyusari ? 'banyusari' : (inCilamayaWetan ? 'cilamaya-wetan' : (inCilamayaKulon ? 'cilamaya-kulon' : (inTempuran ? 'tempuran' : 'cilebar')))))))))))))))));
+      const inTirtamulya = typeof TIRTAMULYA_DESA_DATA !== 'undefined' && TIRTAMULYA_DESA_DATA.some(d => d.id === desaId);
+      const targetKec = inLemahabang ? 'lemahabang' : (inTalagasari ? 'talagasari' : (inMajalaya ? 'majalaya' : (inKarawangTimur ? 'karawang-timur' : (inTelukjambeTimur ? 'telukjambe-timur' : (inTelukjambeBarat ? 'telukjambe-barat' : (inPangkalan ? 'pangkalan' : (inKlari ? 'klari' : (inCiampel ? 'ciampel' : (inTegalwaru ? 'tegalwaru' : (inPurwasari ? 'purwasari' : (inCikampek ? 'cikampek' : (inKotabaru ? 'kotabaru' : (inJatisari ? 'jatisari' : (inBanyusari ? 'banyusari' : (inCilamayaWetan ? 'cilamaya-wetan' : (inCilamayaKulon ? 'cilamaya-kulon' : (inTempuran ? 'tempuran' : (inTirtamulya ? 'tirtamulya' : 'cilebar'))))))))))))))))));
       switchView('kecamatan', targetKec);
       setTimeout(() => selectDesa(desaId), 100);
     } else {
