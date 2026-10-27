@@ -1,0 +1,235 @@
+      <!-- ============================================================== -->
+      <!-- VIEW 4: INFORMASI (BERITA, PENGUMUMAN, REGULASI, FAQ)          -->
+      <!-- ============================================================== -->
+      <div id="viewInformasi" class="dashboard-view" style="display: none;">
+        <!-- TOP ADMIN BAR -->
+        <div class="top-bar">
+          <div class="admin-dropdown-container">
+            <button class="admin-btn">
+              <div class="admin-avatar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </div>
+              <span class="admin-name">Admin</span>
+              <svg class="admin-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            
+            <div class="admin-dropdown-menu">
+              <div class="admin-dropdown-header">
+                <strong>Administrator BAPENDA</strong>
+                <span>admin@karawangkab.go.id</span>
+              </div>
+              <hr class="dropdown-divider">
+              <a href="#" class="dropdown-item">Profil Admin</a>
+              <a href="#" class="dropdown-item">Pengaturan Sistem</a>
+              <a href="#" class="dropdown-item">Log Aktivitas</a>
+              <hr class="dropdown-divider">
+              <a href="#" class="dropdown-item text-danger">Keluar</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-view-container">
+          <!-- PAGE HEADER WITH DATE FILTER -->
+          <section class="page-header info-page-header">
+            <div class="header-left">
+              <h1 class="page-title info-title">Informasi</h1>
+              <p class="page-subtitle info-subtitle">Berita, pengumuman, dan regulasi terbaru seputar PBB-P2</p>
+            </div>
+
+            <div class="header-right">
+              <div class="period-filter-wrapper" id="periodFilterInformasi">
+                <input type="hidden" id="filterTahunInformasi" value="2026">
+                <input type="hidden" id="filterBulanInformasi" value="all">
+                <input type="hidden" id="filterStartDateInformasi" value="2026-01-01">
+                <input type="hidden" id="filterEndDateInformasi" value="2026-12-31">
+
+                <div class="date-range-filter-group" id="dateRangeFilterGroupInformasi">
+                  <button type="button" class="date-range-trigger-btn info-date-btn" id="dateRangeTriggerInformasi" aria-haspopup="dialog" aria-expanded="false" title="Klik untuk memilih rentang tanggal">
+                    <span class="date-range-display-text" id="dateRangeTextInformasi">1 Jan 26 - 31 Des 2026</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="calendar-trigger-icon">
+                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                      <line x1="16" y1="2" x2="16" y2="6"></line>
+                      <line x1="8" y1="2" x2="8" y2="6"></line>
+                      <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                  </button>
+
+                  <button type="button" class="btn-filter-reset-sm info-reset-btn" id="btnResetFilterInformasi" title="Kembalikan ke periode default (Tahun 2026)">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                      <path d="M3 3v5h5"></path>
+                    </svg>
+                    <span>Reset</span>
+                  </button>
+                </div>
+
+                <!-- Two-Month Pop-up Calendar Modal for Informasi -->
+                <div class="date-range-popup" id="dateRangePopupInformasi" role="dialog" aria-modal="true" style="display: none;">
+                  <div class="calendar-popup-header">
+                    <button type="button" class="cal-nav-btn" id="calPrevBtnInformasi" title="Bulan Sebelumnya">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                      </svg>
+                    </button>
+                    <div class="calendar-quick-selectors">
+                      <select class="cal-jump-select" id="calMonthJumpInformasi" title="Pilih Bulan"></select>
+                      <select class="cal-jump-select" id="calYearJumpInformasi" title="Pilih Tahun"></select>
+                    </div>
+                    <button type="button" class="cal-nav-btn" id="calNextBtnInformasi" title="Bulan Berikutnya">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                      </svg>
+                    </button>
+                  </div>
+
+                  <div class="calendar-months-container" id="calendarMonthsInformasi"></div>
+
+                  <div class="calendar-popup-footer">
+                    <div class="calendar-footer-preview">
+                      <span class="preview-label">Rentang:</span>
+                      <strong class="preview-val" id="calPreviewRangeInformasi">1 Jan 2026 – 31 Des 2026</strong>
+                    </div>
+                    <div class="calendar-footer-actions">
+                      <button type="button" class="btn-cal-action btn-cal-cancel" id="calCancelBtnInformasi">Batal</button>
+                      <button type="button" class="btn-cal-action btn-cal-apply" id="calApplyBtnInformasi">Terapkan</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- CATEGORY FILTER TABS -->
+          <section class="info-tabs-section">
+            <div class="info-tabs-nav" role="tablist">
+              <button type="button" class="info-tab-btn active" data-tab="semua" role="tab" aria-selected="true">Semua</button>
+              <button type="button" class="info-tab-btn" data-tab="berita" role="tab" aria-selected="false">Berita</button>
+              <button type="button" class="info-tab-btn" data-tab="pengumuman" role="tab" aria-selected="false">Pengumuman</button>
+              <button type="button" class="info-tab-btn" data-tab="regulasi" role="tab" aria-selected="false">Regulasi</button>
+              <button type="button" class="info-tab-btn" data-tab="faq" role="tab" aria-selected="false">FAQ</button>
+            </div>
+          </section>
+
+          <!-- ALERT / EMPTY STATE (if date filter yields no items) -->
+          <div class="info-alert-box" id="infoAlertBox" style="display: none;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span id="infoAlertMessage">Tidak ada berita atau pengumuman pada periode tanggal yang dipilih.</span>
+          </div>
+
+          <!-- MAIN 2-COLUMN CONTENT LAYOUT (FOR 'SEMUA' TAB) -->
+          <div class="info-content-layout" id="infoContentLayout">
+            <!-- LEFT COLUMN: BERITA TERBARU -->
+            <div class="info-col-left" id="infoColLeft">
+              <div class="info-card info-card-berita">
+                <div class="info-card-header">
+                  <h2 class="info-card-title">Berita Terbaru</h2>
+                  <button type="button" class="info-btn-view-all" id="btnLihatSemuaBerita" data-target-tab="berita">
+                    <span>Lihat Semua</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </button>
+                </div>
+                <div class="info-card-body info-berita-list" id="infoBeritaList">
+                  <!-- Rendered dynamically -->
+                </div>
+              </div>
+            </div>
+
+            <!-- RIGHT COLUMN: PENGUMUMAN, REGULASI, FAQ -->
+            <div class="info-col-right" id="infoColRight">
+              <!-- CARD 1: PENGUMUMAN -->
+              <div class="info-card info-card-pengumuman" id="cardPengumuman">
+                <div class="info-card-header">
+                  <h2 class="info-card-title">Pengumuman</h2>
+                  <button type="button" class="info-btn-view-all" id="btnLihatSemuaPengumuman" data-target-tab="pengumuman">
+                    <span>Lihat Semua</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </button>
+                </div>
+                <div class="info-card-body info-pengumuman-list" id="infoPengumumanList">
+                  <!-- Rendered dynamically -->
+                </div>
+              </div>
+
+              <!-- CARD 2: REGULASI -->
+              <div class="info-card info-card-regulasi" id="cardRegulasi">
+                <div class="info-card-header">
+                  <h2 class="info-card-title">Regulasi</h2>
+                  <button type="button" class="info-btn-view-all" id="btnLihatSemuaRegulasi" data-target-tab="regulasi">
+                    <span>Lihat Semua</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </button>
+                </div>
+                <div class="info-card-body info-regulasi-list" id="infoRegulasiList">
+                  <!-- Rendered dynamically -->
+                </div>
+              </div>
+
+              <!-- CARD 3: FAQ -->
+              <div class="info-card info-card-faq" id="cardFAQ">
+                <div class="info-faq-header-bar">
+                  <svg class="info-faq-head-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                  </svg>
+                  <span class="info-faq-head-title">Pertanyaan yang Sering Diajukan</span>
+                </div>
+                <div class="info-card-body info-faq-list" id="infoFaqList">
+                  <!-- Accordion rendered dynamically -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- DEDICATED FULL-WIDTH VIEW (FOR BERITA / PENGUMUMAN / REGULASI / FAQ TABS) -->
+          <div class="info-tab-fullscreen-container" id="infoTabFullscreenContainer" style="display: none;">
+            <div class="info-fullscreen-topbar">
+              <button type="button" class="btn-info-back-semua" id="btnBackToSemua">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="19" y1="12" x2="5" y2="12"></line>
+                  <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                <span>Kembali ke Semua Informasi</span>
+              </button>
+              <h2 class="info-fullscreen-title" id="infoFullscreenTitle">Koleksi Informasi</h2>
+            </div>
+            <div class="info-fullscreen-content" id="infoFullscreenContent"></div>
+          </div>
+        </div>
+
+        <!-- DETAIL MODAL FOR READING NEWS / ANNOUNCEMENT / REGULATION -->
+        <div class="info-modal-backdrop" id="infoDetailModal" style="display: none;" role="dialog" aria-modal="true">
+          <div class="info-modal-card">
+            <div class="info-modal-header">
+              <div class="info-modal-badge" id="infoModalBadge">Berita</div>
+              <button type="button" class="info-modal-close-btn" id="btnInfoModalClose" title="Tutup">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
+            <div class="info-modal-body" id="infoModalBody">
+              <!-- Dynamic detail content -->
+            </div>
+          </div>
+        </div>
+      </div>

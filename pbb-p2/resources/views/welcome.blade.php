@@ -7,9 +7,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=20261020_info_fix">
+  <base href="{{ url('/') }}/">
 </head>
-<body data-initial-kecamatan="{{ $initialKecamatan ?? '' }}">
+@php
+  $isPenggunaan = ($initialView ?? '') === 'penggunaan';
+  $isInformasi = ($initialView ?? '') === 'informasi';
+@endphp
+<body data-initial-kecamatan="{{ $initialKecamatan ?? '' }}" data-initial-view="{{ $initialView ?? '' }}">
   <div class="app-layout">
     <!-- SIDEBAR -->
     <aside class="sidebar">
@@ -30,7 +35,7 @@
           <span>Beranda</span>
         </a>
 
-        <a href="#peta" class="menu-item active" id="menu-peta">
+        <a href="#peta" class="menu-item {{ (!$isPenggunaan && !$isInformasi) ? 'active' : '' }}" id="menu-peta">
           <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
             <line x1="8" y1="2" x2="8" y2="18"></line>
@@ -49,18 +54,17 @@
           <span>Realisasi & Target</span>
         </a>
 
-        <a href="#pengguna" class="menu-item" id="menu-pengguna">
+        <a href="#penggunaan" class="menu-item {{ $isPenggunaan ? 'active' : '' }}" id="menu-penggunaan" data-id="menu-pengguna" data-view="penggunaan">
           <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="4" width="18" height="16" rx="2"></rect>
-            <circle cx="9" cy="10" r="2"></circle>
-            <line x1="15" y1="8" x2="17" y2="8"></line>
-            <line x1="15" y1="12" x2="17" y2="12"></line>
-            <line x1="7" y1="16" x2="17" y2="16"></line>
+            <rect x="4" y="3" width="16" height="18" rx="2"></rect>
+            <path d="M8 3v6l2.5-1.5L13 9V3"></path>
+            <line x1="8" y1="14" x2="16" y2="14"></line>
+            <line x1="8" y1="17" x2="13" y2="17"></line>
           </svg>
-          <span>Pengguna Pajak</span>
+          <span>Penggunaan Pajak</span>
         </a>
 
-        <a href="#informasi" class="menu-item" id="menu-informasi">
+        <a href="#informasi" class="menu-item {{ $isInformasi ? 'active' : '' }}" id="menu-informasi" data-view="informasi">
           <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10"></circle>
             <line x1="12" y1="16" x2="12" y2="12"></line>
@@ -94,7 +98,7 @@
       <!-- ============================================================== -->
       <!-- VIEW 1: LEVEL KABUPATEN KARAWANG                               -->
       <!-- ============================================================== -->
-      <div id="viewKabupaten" class="dashboard-view active">
+      <div id="viewKabupaten" class="dashboard-view {{ (!$isPenggunaan && !$isInformasi) ? 'active' : '' }}" @if($isPenggunaan || $isInformasi) style="display: none;" @endif>
         <!-- TOP ADMIN BAR -->
         <div class="top-bar">
           <div class="admin-dropdown-container">
@@ -137,73 +141,164 @@
           </div>
 
           <div class="header-right">
-            <!-- Year Selector -->
-            <div class="year-selector-wrapper">
-              <div class="year-label">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="calendar-icon">
-                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                  <line x1="16" y1="2" x2="16" y2="6"></line>
-                  <line x1="8" y1="2" x2="8" y2="6"></line>
-                  <line x1="3" y1="10" x2="21" y2="10"></line>
-                </svg>
-                <span>Tahun</span>
+            <!-- Period Filter (Single Date Range Picker Input + Pop-up Calendar) -->
+            <div class="period-filter-wrapper" id="periodFilterKab">
+              <!-- Hidden compatibility inputs for tests & data sync -->
+              <input type="hidden" id="filterTahunKab" value="2026">
+              <input type="hidden" id="filterBulanKab" value="all">
+              <input type="hidden" id="filterStartDateKab" value="">
+              <input type="hidden" id="filterEndDateKab" value="">
+              <select id="yearSelectKabupaten" style="display: none;">
+                <option value="2026" selected>2026</option>
+                <option value="2025">2025</option>
+                <option value="2024">2024</option>
+              </select>
+
+              <!-- Single Date Range Picker Input Group -->
+              <div class="date-range-filter-group" id="dateRangeFilterGroupKab">
+                <button type="button" class="date-range-trigger-btn" id="dateRangeTriggerKab" aria-haspopup="dialog" aria-expanded="false" title="Klik untuk memilih rentang tanggal">
+                  <span class="date-range-display-text" id="dateRangeTextKab">01 Jan 2026 – 31 Des 2026</span>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="calendar-trigger-icon">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                </button>
+
+                <!-- Small Compact Reset Button -->
+                <button type="button" class="btn-filter-reset-sm" id="btnResetFilterKab" title="Kembalikan ke periode default (Tahun 2026)">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                    <path d="M3 3v5h5"></path>
+                  </svg>
+                  <span>Reset</span>
+                </button>
               </div>
-              <div class="custom-select-box">
-                <select id="yearSelectKabupaten">
-                  <option value="2026" selected>2026</option>
-                  <option value="2025">2025</option>
-                  <option value="2024">2024</option>
-                </select>
-                <svg class="select-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polyline points="6 9 12 15 18 9"></polyline>
+
+              <!-- Two-Month Pop-up Calendar Modal -->
+              <div class="date-range-popup" id="dateRangePopupKab" role="dialog" aria-modal="true" style="display: none;">
+                <div class="calendar-popup-header">
+                  <button type="button" class="cal-nav-btn" id="calPrevBtnKab" title="Bulan Sebelumnya">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                  </button>
+                  <div class="calendar-quick-selectors">
+                    <select class="cal-jump-select" id="calMonthJumpKab" title="Pilih Bulan"></select>
+                    <select class="cal-jump-select" id="calYearJumpKab" title="Pilih Tahun"></select>
+                  </div>
+                  <button type="button" class="cal-nav-btn" id="calNextBtnKab" title="Bulan Berikutnya">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                  </button>
+                </div>
+
+                <!-- Two Months Side-by-Side Container -->
+                <div class="calendar-months-container" id="calendarMonthsKab"></div>
+
+                <!-- Pop-up Footer: Selection Info & Action Buttons -->
+                <div class="calendar-popup-footer">
+                  <div class="calendar-footer-preview">
+                    <span class="preview-label">Rentang:</span>
+                    <strong class="preview-val" id="calPreviewRangeKab">01 Jan 2026 – 31 Des 2026</strong>
+                  </div>
+                  <div class="calendar-footer-actions">
+                    <button type="button" class="btn-cal-action btn-cal-cancel" id="calCancelBtnKab">Batal</button>
+                    <button type="button" class="btn-cal-action btn-cal-apply" id="calApplyBtnKab">Terapkan</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- HORIZONTAL SUMMARY CARDS ROW (FINANCIAL & ADMINISTRATIVE STATS) -->
+        <section class="dashboard-summary-section">
+          <div class="stats-cards-row">
+            <!-- Card 1: Total Target PBB-P2 -->
+            <div class="stat-card">
+              <div class="stat-icon-wrapper">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <circle cx="12" cy="6" r="6"></circle>
+                  <circle cx="12" cy="2" r="2"></circle>
                 </svg>
+              </div>
+              <div class="stat-content">
+                <span class="stat-label">Total Target PBB-P2</span>
+                <strong class="stat-value" id="totalTargetVal">Rp412.560.000.000,00</strong>
               </div>
             </div>
 
-            <!-- 3 Stat Cards -->
-            <div class="stats-cards-row">
-              <!-- Card 1 -->
-              <div class="stat-card">
-                <div class="stat-icon-wrapper">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <circle cx="12" cy="12" r="6"></circle>
-                    <circle cx="12" cy="12" r="2"></circle>
-                  </svg>
-                </div>
-                <div class="stat-content">
-                  <span class="stat-label">Total Target PBB-P2</span>
-                  <strong class="stat-value" id="totalTargetVal">Rp.412.560.000.000</strong>
-                </div>
+            <!-- Card 2: Total Realisasi -->
+            <div class="stat-card">
+              <div class="stat-icon-wrapper">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"></path>
+                  <path d="M3 5v14a2 2 0 0 0 2 2h16v-5"></path>
+                  <path d="M18 12a2 2 0 0 0 0 4h4v-4z"></path>
+                </svg>
               </div>
-
-              <!-- Card 2 -->
-              <div class="stat-card">
-                <div class="stat-icon-wrapper">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"></path>
-                    <path d="M3 5v14a2 2 0 0 0 2 2h16v-5"></path>
-                    <path d="M18 12a2 2 0 0 0 0 4h4v-4z"></path>
-                  </svg>
-                </div>
-                <div class="stat-content">
-                  <span class="stat-label">Total Realisasi</span>
-                  <strong class="stat-value" id="totalRealisasiVal">Rp.318.742.500.000</strong>
-                </div>
+              <div class="stat-content">
+                <span class="stat-label">Total Realisasi</span>
+                <strong class="stat-value" id="totalRealisasiVal">Rp292.942.200.000,00</strong>
               </div>
+            </div>
 
-              <!-- Card 3 -->
-              <div class="stat-card">
-                <div class="donut-chart-wrapper">
-                  <svg viewBox="0 0 36 36" class="donut-chart">
-                    <path class="donut-ring" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#e2e8f0" stroke-width="3.6"/>
-                    <path class="donut-segment" id="donutProgressKab" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#22c55e" stroke-width="3.6" stroke-dasharray="77.3, 100" stroke-linecap="round"/>
-                  </svg>
-                </div>
-                <div class="stat-content">
-                  <span class="stat-label">Capaian Keseluruhan</span>
-                  <strong class="stat-value stat-value-highlight" id="totalCapaianVal">77,3%</strong>
-                </div>
+            <!-- Card 3: Sisa Tagihan PBB-P2 -->
+            <div class="stat-card">
+              <div class="stat-icon-wrapper icon-bg-red">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+              </div>
+              <div class="stat-content">
+                <span class="stat-label">Sisa Tagihan PBB-P2</span>
+                <strong class="stat-value" id="totalSisaTagihanVal">Rp119.617.800.000,00</strong>
+              </div>
+            </div>
+
+            <!-- Card 4: Capaian Realisasi -->
+            <div class="stat-card">
+              <div class="donut-chart-wrapper">
+                <svg width="36" height="36" viewBox="0 0 36 36" class="donut-chart">
+                  <path class="donut-ring" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#e2e8f0" stroke-width="3.6"/>
+                  <path class="donut-segment" id="donutProgressKab" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#f5d547" stroke-width="3.6" stroke-dasharray="71.0, 100" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div class="stat-content">
+                <span class="stat-label">Capaian Realisasi</span>
+                <strong class="stat-value stat-value-highlight" id="totalCapaianVal">71,0%</strong>
+              </div>
+            </div>
+
+            <!-- Card 5: Total Kecamatan (Administratif) -->
+            <div class="stat-card admin-stat-card" title="Jumlah Kecamatan Terdaftar di Kabupaten Karawang">
+              <div class="stat-icon-wrapper icon-bg-admin-kec">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 21h18M3 7v14M21 7v14M6 11h2M6 15h2M11 11h2M11 15h2M16 11h2M16 15h2M12 3l9 4H3l9-4z"></path>
+                </svg>
+              </div>
+              <div class="stat-content">
+                <span class="stat-label">Total Kecamatan</span>
+                <strong class="stat-value" id="totalKecamatanVal">30 Kecamatan</strong>
+              </div>
+            </div>
+
+            <!-- Card 6: Total Desa/Kelurahan (Administratif) -->
+            <div class="stat-card admin-stat-card stat-card-desa" title="Jumlah Desa dan Kelurahan Valid di Kabupaten Karawang">
+              <div class="stat-icon-wrapper icon-bg-admin-desa">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+              </div>
+              <div class="stat-content">
+                <span class="stat-label">Total Desa/Kelurahan</span>
+                <strong class="stat-value" id="totalDesaVal">309 Desa/Kelurahan</strong>
               </div>
             </div>
           </div>
@@ -240,14 +335,18 @@
                 <div class="popup-body">
                   <div class="popup-row">
                     <span class="p-label">Target :</span>
-                    <span class="p-val" id="popupTarget">Rp. 45.800.000.000</span>
+                    <span class="p-val" id="popupTarget">Rp45.800.000.000,00</span>
                   </div>
                   <div class="popup-row">
                     <span class="p-label">Realisasi :</span>
-                    <span class="p-val" id="popupRealisasi">Rp. 41.230.000.000</span>
+                    <span class="p-val" id="popupRealisasi">Rp41.230.000.000,00</span>
                   </div>
                   <div class="popup-row">
-                    <span class="p-label">Capaian :</span>
+                    <span class="p-label">Sisa Tagihan :</span>
+                    <span class="p-val" id="popupSisa">Rp4.570.000.000,00</span>
+                  </div>
+                  <div class="popup-row">
+                    <span class="p-label">Capaian Realisasi :</span>
                     <span class="p-val" id="popupCapaian">90,0%</span>
                   </div>
                 </div>
@@ -265,25 +364,55 @@
               <button class="zoom-btn" id="zoomOutBtn" title="Perkecil Peta">−</button>
             </div>
 
-            <!-- Legend Box (Bottom Right) -->
-            <div class="map-legend-card">
-              <h4 class="legend-title">Keterangan Warna</h4>
-              <div class="legend-list">
-                <div class="legend-item">
-                  <span class="legend-color-box bg-green"></span>
-                  <span class="legend-text">≥ 100% (Tercapai)</span>
+            <!-- Floating Legends & Recap (Bottom Right of Map: TWO SEPARATE CARDS) -->
+            <div class="map-floating-legends">
+              <!-- Card 1: Keterangan Warna (Legenda 4 Kategori Saja) -->
+              <div class="map-legend-card" id="mapLegendCard">
+                <h4 class="legend-card-title">Keterangan Warna</h4>
+                <div class="legend-list">
+                  <div class="legend-item">
+                    <span class="legend-dot bg-green"></span>
+                    <span class="legend-text">≥100% (Tercapai)</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-dot bg-yellow"></span>
+                    <span class="legend-text">70–99% (Mendekati Target)</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-dot bg-orange"></span>
+                    <span class="legend-text">30–69% (Capaian Sedang)</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-dot bg-red"></span>
+                    <span class="legend-text">≤30% (Capaian Rendah)</span>
+                  </div>
                 </div>
-                <div class="legend-item">
-                  <span class="legend-color-box bg-yellow"></span>
-                  <span class="legend-text">70 - 99% (Mendekati Target)</span>
-                </div>
-                <div class="legend-item">
-                  <span class="legend-color-box bg-orange"></span>
-                  <span class="legend-text">30 - 69% (Capaian Sedang)</span>
-                </div>
-                <div class="legend-item">
-                  <span class="legend-color-box bg-red"></span>
-                  <span class="legend-text">≤ 30% (Capaian Rendah)</span>
+              </div>
+
+              <!-- Card 2: Rekap Capaian Kecamatan (Terpisah) -->
+              <div class="map-rekap-card" id="mapRekapCard">
+                <h4 class="legend-card-title">Rekap Capaian</h4>
+                <div class="rekap-list">
+                  <div class="rekap-item">
+                    <span class="legend-dot bg-green"></span>
+                    <span class="rekap-label">Tercapai:</span>
+                    <strong class="rekap-val" id="rekapCountGreen">2 Kecamatan</strong>
+                  </div>
+                  <div class="rekap-item">
+                    <span class="legend-dot bg-yellow"></span>
+                    <span class="rekap-label">Mendekati Target:</span>
+                    <strong class="rekap-val" id="rekapCountYellow">12 Kecamatan</strong>
+                  </div>
+                  <div class="rekap-item">
+                    <span class="legend-dot bg-orange"></span>
+                    <span class="rekap-label">Capaian Sedang:</span>
+                    <strong class="rekap-val" id="rekapCountOrange">14 Kecamatan</strong>
+                  </div>
+                  <div class="rekap-item">
+                    <span class="legend-dot bg-red"></span>
+                    <span class="rekap-label">Capaian Rendah:</span>
+                    <strong class="rekap-val" id="rekapCountRed">2 Kecamatan</strong>
+                  </div>
                 </div>
               </div>
             </div>
@@ -326,16 +455,21 @@
               <div class="detail-content">
                 <div class="detail-row">
                   <span class="d-label">Target PBB-P2</span>
-                  <strong class="d-val" id="detailTarget">Rp.412.560.000.000</strong>
+                  <strong class="d-val" id="detailTarget">Rp45.800.000.000,00</strong>
                 </div>
 
                 <div class="detail-row">
                   <span class="d-label">Realisasi</span>
-                  <strong class="d-val" id="detailRealisasi">Rp.318.742.500.000</strong>
+                  <strong class="d-val" id="detailRealisasi">Rp41.230.000.000,00</strong>
+                </div>
+
+                <div class="detail-row">
+                  <span class="d-label">Sisa Tagihan</span>
+                  <strong class="d-val" id="detailSisa">Rp4.570.000.000,00</strong>
                 </div>
 
                 <div class="detail-row align-center">
-                  <span class="d-label">Capaian</span>
+                  <span class="d-label">Capaian Realisasi</span>
                   <div class="progress-container">
                     <div class="progress-bar-track">
                       <div class="progress-bar-fill fill-yellow" id="detailProgressFill" style="width: 90%;"></div>
@@ -414,25 +548,74 @@
             <p class="kecamatan-view-desc" id="kecViewDesc">Detail data per desa/kelurahan pada Kecamatan Cilebar.</p>
           </div>
 
-          <div class="year-selector-wrapper">
-            <div class="year-label">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="calendar-icon">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                <line x1="16" y1="2" x2="16" y2="6"></line>
-                <line x1="8" y1="2" x2="8" y2="6"></line>
-                <line x1="3" y1="10" x2="21" y2="10"></line>
-              </svg>
-              <span>Tahun</span>
+          <!-- Kecamatan Period Filter (Single Date Range Picker Input + Pop-up Calendar) -->
+          <div class="period-filter-wrapper" id="periodFilterKec">
+            <!-- Hidden compatibility inputs for tests & data sync -->
+            <input type="hidden" id="filterTahunKec" value="2026">
+            <input type="hidden" id="filterBulanKec" value="all">
+            <input type="hidden" id="filterStartDateKec" value="">
+            <input type="hidden" id="filterEndDateKec" value="">
+            <select id="yearSelectKecamatan" style="display: none;">
+              <option value="2026" selected>2026</option>
+              <option value="2025">2025</option>
+              <option value="2024">2024</option>
+            </select>
+
+            <!-- Single Date Range Picker Input Group -->
+            <div class="date-range-filter-group" id="dateRangeFilterGroupKec">
+              <button type="button" class="date-range-trigger-btn" id="dateRangeTriggerKec" aria-haspopup="dialog" aria-expanded="false" title="Klik untuk memilih rentang tanggal">
+                <span class="date-range-display-text" id="dateRangeTextKec">01 Jan 2026 – 31 Des 2026</span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="calendar-trigger-icon">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+              </button>
+
+              <!-- Small Compact Reset Button -->
+              <button type="button" class="btn-filter-reset-sm" id="btnResetFilterKec" title="Kembalikan ke periode default (Tahun 2026)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                  <path d="M3 3v5h5"></path>
+                </svg>
+                <span>Reset</span>
+              </button>
             </div>
-            <div class="custom-select-box">
-              <select id="yearSelectKecamatan">
-                <option value="2026" selected>2026</option>
-                <option value="2025">2025</option>
-                <option value="2024">2024</option>
-              </select>
-              <svg class="select-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
+
+            <!-- Two-Month Pop-up Calendar Modal -->
+            <div class="date-range-popup" id="dateRangePopupKec" role="dialog" aria-modal="true" style="display: none;">
+              <div class="calendar-popup-header">
+                <button type="button" class="cal-nav-btn" id="calPrevBtnKec" title="Bulan Sebelumnya">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                  </svg>
+                </button>
+                <div class="calendar-quick-selectors">
+                  <select class="cal-jump-select" id="calMonthJumpKec" title="Pilih Bulan"></select>
+                  <select class="cal-jump-select" id="calYearJumpKec" title="Pilih Tahun"></select>
+                </div>
+                <button type="button" class="cal-nav-btn" id="calNextBtnKec" title="Bulan Berikutnya">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Two Months Side-by-Side Container -->
+              <div class="calendar-months-container" id="calendarMonthsKec"></div>
+
+              <!-- Pop-up Footer: Selection Info & Action Buttons -->
+              <div class="calendar-popup-footer">
+                <div class="calendar-footer-preview">
+                  <span class="preview-label">Rentang:</span>
+                  <strong class="preview-val" id="calPreviewRangeKec">01 Jan 2026 – 31 Des 2026</strong>
+                </div>
+                <div class="calendar-footer-actions">
+                  <button type="button" class="btn-cal-action btn-cal-cancel" id="calCancelBtnKec">Batal</button>
+                  <button type="button" class="btn-cal-action btn-cal-apply" id="calApplyBtnKec">Terapkan</button>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -449,8 +632,8 @@
               </svg>
             </div>
             <div class="kec-card-text">
-              <span class="kec-card-label">Total Target PBB–P2</span>
-              <strong class="kec-card-val" id="kecSumTarget">Rp. 5.100.000.000</strong>
+              <span class="kec-card-label">Total Target PBB-P2</span>
+              <strong class="kec-card-val" id="kecSumTarget">Rp5.100.000.000,00</strong>
             </div>
           </div>
 
@@ -465,7 +648,7 @@
             </div>
             <div class="kec-card-text">
               <span class="kec-card-label">Total Realisasi</span>
-              <strong class="kec-card-val" id="kecSumRealisasi">Rp. 5.304.000.000</strong>
+              <strong class="kec-card-val" id="kecSumRealisasi">Rp5.304.000.000,00</strong>
             </div>
           </div>
 
@@ -479,11 +662,11 @@
             </div>
             <div class="kec-card-text">
               <span class="kec-card-label">Sisa Tagihan</span>
-              <strong class="kec-card-val" id="kecSumSisa">Rp. 0</strong>
+              <strong class="kec-card-val" id="kecSumSisa">Rp0,00</strong>
             </div>
           </div>
 
-          <!-- Card 4: Capaian Keseluruhan Donut -->
+          <!-- Card 4: Capaian Realisasi Donut -->
           <div class="kec-summary-card">
             <div class="donut-chart-wrapper-sm">
               <svg viewBox="0 0 36 36" class="donut-chart">
@@ -493,7 +676,7 @@
               <span class="donut-center-pct" id="donutKecCenterPct">104,0%</span>
             </div>
             <div class="kec-card-text">
-              <span class="kec-card-label">Capaian Keseluruhan</span>
+              <span class="kec-card-label">Capaian Realisasi</span>
               <strong class="kec-card-val" id="kecSumCapaian">104,0%</strong>
             </div>
           </div>
@@ -610,14 +793,18 @@
                 <div class="popup-body">
                   <div class="popup-row">
                     <span class="p-label">Target :</span>
-                    <span class="p-val" id="desaPopupTarget">Rp. 550.000.000</span>
+                    <span class="p-val" id="desaPopupTarget">Rp550.000.000,00</span>
                   </div>
                   <div class="popup-row">
                     <span class="p-label">Realisasi :</span>
-                    <span class="p-val" id="desaPopupRealisasi">Rp. 528.000.000</span>
+                    <span class="p-val" id="desaPopupRealisasi">Rp528.000.000,00</span>
                   </div>
                   <div class="popup-row">
-                    <span class="p-label">Capaian :</span>
+                    <span class="p-label">Sisa Tagihan :</span>
+                    <span class="p-val" id="desaPopupSisa">Rp22.000.000,00</span>
+                  </div>
+                  <div class="popup-row">
+                    <span class="p-label">Capaian Realisasi :</span>
                     <span class="p-val" id="desaPopupCapaian">96,0%</span>
                   </div>
                 </div>
@@ -717,8 +904,8 @@
                 </svg>
               </div>
               <div class="mini-text">
-                <span class="m-label">Target PBB–P2</span>
-                <strong class="m-val" id="desaDetailTarget">Rp. 5.100.000.000</strong>
+                <span class="m-label">Target PBB-P2</span>
+                <strong class="m-val" id="desaDetailTarget">Rp5.100.000.000,00</strong>
               </div>
             </div>
 
@@ -732,8 +919,8 @@
                 </svg>
               </div>
               <div class="mini-text">
-                <span class="m-label">Realisasi</span>
-                <strong class="m-val" id="desaDetailRealisasi">Rp. 5.304.000.000</strong>
+                <span class="m-label">Total Realisasi</span>
+                <strong class="m-val" id="desaDetailRealisasi">Rp5.304.000.000,00</strong>
               </div>
             </div>
 
@@ -747,11 +934,11 @@
               </div>
               <div class="mini-text">
                 <span class="m-label">Sisa Tagihan</span>
-                <strong class="m-val" id="desaDetailSisa">Rp. 0</strong>
+                <strong class="m-val" id="desaDetailSisa">Rp0,00</strong>
               </div>
             </div>
 
-            <!-- Capaian Keseluruhan Donut -->
+            <!-- Capaian Realisasi Donut -->
             <div class="mini-stat-card mini-donut-card">
               <div class="donut-chart-wrapper-sm">
                 <svg viewBox="0 0 36 36" class="donut-chart">
@@ -762,7 +949,7 @@
               </div>
               <div class="mini-text">
                 <span class="m-label">Capaian</span>
-                <span class="m-sub-label">Keseluruhan</span>
+                <span class="m-sub-label">Realisasi</span>
               </div>
             </div>
 
@@ -836,7 +1023,7 @@
             <div class="breakdown-card progress-breakdown-card">
               <div class="progress-breakdown-content">
                 <div class="progress-header-row">
-                  <span class="b-label">Persentase Capaian</span>
+                  <span class="b-label">Persentase Capaian Realisasi</span>
                   <strong class="b-val-pct" id="valBreakdownPct">104,0%</strong>
                 </div>
                 <div class="progress-bar-track-lg">
@@ -846,6 +1033,506 @@
             </div>
           </div>
         </section>
+      </div>
+
+      <!-- ============================================================== -->
+      <!-- VIEW 3: PENGGUNAAN PAJAK (REALISASI PENGGUNAAN DANA PBB-P2)    -->
+      <!-- ============================================================== -->
+      <div id="viewPenggunaan" class="dashboard-view {{ $isPenggunaan ? 'active' : '' }}" @if(!$isPenggunaan) style="display: none;" @endif>
+        <!-- TOP ADMIN BAR -->
+        <div class="top-bar">
+          <div class="admin-dropdown-container">
+            <button class="admin-btn">
+              <div class="admin-avatar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </div>
+              <span class="admin-name">Admin</span>
+              <svg class="admin-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            
+            <div class="admin-dropdown-menu">
+              <div class="admin-dropdown-header">
+                <strong>Administrator BAPENDA</strong>
+                <span>admin@karawangkab.go.id</span>
+              </div>
+              <hr class="dropdown-divider">
+              <a href="#" class="dropdown-item">Profil Admin</a>
+              <a href="#" class="dropdown-item">Pengaturan Sistem</a>
+              <a href="#" class="dropdown-item">Log Aktivitas</a>
+              <hr class="dropdown-divider">
+              <a href="#" class="dropdown-item text-danger">Keluar</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pj-view-container">
+          <!-- PAGE HEADER WITH DATE FILTER -->
+          <section class="page-header pj-page-header">
+            <div class="header-left">
+              <h1 class="page-title pj-title">Penggunaan Pajak</h1>
+              <p class="page-subtitle pj-subtitle">Realisasi penggunaan dana dari penerimaan PBB-P2</p>
+            </div>
+
+            <div class="header-right">
+              <div class="period-filter-wrapper" id="periodFilterPenggunaan">
+                <input type="hidden" id="filterTahunPenggunaan" value="2026">
+                <input type="hidden" id="filterBulanPenggunaan" value="all">
+                <input type="hidden" id="filterStartDatePenggunaan" value="2026-01-01">
+                <input type="hidden" id="filterEndDatePenggunaan" value="2026-12-31">
+
+                <div class="date-range-filter-group" id="dateRangeFilterGroupPenggunaan">
+                  <button type="button" class="date-range-trigger-btn pj-date-btn" id="dateRangeTriggerPenggunaan" aria-haspopup="dialog" aria-expanded="false" title="Klik untuk memilih rentang tanggal">
+                    <span class="date-range-display-text" id="dateRangeTextPenggunaan">1 Jan 26 - 31 Des 2026</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="calendar-trigger-icon">
+                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                      <line x1="16" y1="2" x2="16" y2="6"></line>
+                      <line x1="8" y1="2" x2="8" y2="6"></line>
+                      <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                  </button>
+
+                  <button type="button" class="btn-filter-reset-sm pj-reset-btn" id="btnResetFilterPenggunaan" title="Kembalikan ke periode default (Tahun 2026)">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                      <path d="M3 3v5h5"></path>
+                    </svg>
+                    <span>Reset</span>
+                  </button>
+                </div>
+
+                <!-- Two-Month Pop-up Calendar Modal -->
+                <div class="date-range-popup" id="dateRangePopupPenggunaan" role="dialog" aria-modal="true" style="display: none;">
+                  <div class="calendar-popup-header">
+                    <button type="button" class="cal-nav-btn" id="calPrevBtnPenggunaan" title="Bulan Sebelumnya">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                      </svg>
+                    </button>
+                    <div class="calendar-quick-selectors">
+                      <select class="cal-jump-select" id="calMonthJumpPenggunaan" title="Pilih Bulan"></select>
+                      <select class="cal-jump-select" id="calYearJumpPenggunaan" title="Pilih Tahun"></select>
+                    </div>
+                    <button type="button" class="cal-nav-btn" id="calNextBtnPenggunaan" title="Bulan Berikutnya">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                      </svg>
+                    </button>
+                  </div>
+
+                  <div class="calendar-months-container" id="calendarMonthsPenggunaan"></div>
+
+                  <div class="calendar-popup-footer">
+                    <div class="calendar-footer-preview">
+                      <span class="preview-label">Rentang:</span>
+                      <strong class="preview-val" id="calPreviewRangePenggunaan">1 Jan 2026 – 31 Des 2026</strong>
+                    </div>
+                    <div class="calendar-footer-actions">
+                      <button type="button" class="btn-cal-action btn-cal-cancel" id="calCancelBtnPenggunaan">Batal</button>
+                      <button type="button" class="btn-cal-action btn-cal-apply" id="calApplyBtnPenggunaan">Terapkan</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ALERT MESSAGE IF DATA NOT AVAILABLE -->
+          <div class="pj-alert-box" id="pjAlertBox" style="display: none;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span id="pjAlertMessage">Data belum tersedia untuk rentang waktu yang dipilih.</span>
+          </div>
+
+          <!-- TOP 3 SUMMARY CARDS -->
+          <section class="pj-summary-section">
+            <div class="pj-summary-grid">
+              <!-- Card 1: Total Penerimaan -->
+              <div class="pj-card pj-stat-card">
+                <div class="pj-icon-box pj-icon-blue">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                    <line x1="2" y1="10" x2="22" y2="10"></line>
+                    <circle cx="17" cy="15" r="1.5" fill="currentColor"></circle>
+                  </svg>
+                </div>
+                <div class="pj-stat-info">
+                  <span class="pj-stat-label">Total Penerimaan</span>
+                  <strong class="pj-stat-value" id="pjTotalPenerimaan">Rp292.942.200.000,00</strong>
+                </div>
+              </div>
+
+              <!-- Card 2: Total Penggunaan -->
+              <div class="pj-card pj-stat-card">
+                <div class="pj-icon-box pj-icon-green">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M12 7v1M12 16v1M7 12h1M16 12h1"></path>
+                  </svg>
+                </div>
+                <div class="pj-stat-info">
+                  <span class="pj-stat-label">Total Penggunaan</span>
+                  <strong class="pj-stat-value" id="pjTotalPenggunaan">Rp247.560.800.000,00</strong>
+                </div>
+              </div>
+
+              <!-- Card 3: Sisa Dana -->
+              <div class="pj-card pj-stat-card">
+                <div class="pj-icon-box pj-icon-red">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                  </svg>
+                </div>
+                <div class="pj-stat-info">
+                  <span class="pj-stat-label">Sisa Dana</span>
+                  <strong class="pj-stat-value" id="pjSisaDana">Rp45.381.400.000,00</strong>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- MIDDLE SECTION: DONUT + TABLE -->
+          <section class="pj-middle-section">
+            <div class="pj-middle-grid">
+              <!-- Realisasi Penggunaan Dana (Donut Chart) -->
+              <div class="pj-card pj-donut-card">
+                <div class="pj-card-header">
+                  <h3 class="pj-card-title">Realisasi Penggunaan Dana</h3>
+                </div>
+                <div class="pj-donut-body">
+                  <div class="pj-donut-chart-container">
+                    <svg class="pj-donut-svg" viewBox="0 0 160 160" id="pjDonutSvg"></svg>
+                    <div class="pj-donut-center-text">
+                      <strong class="pj-donut-pct" id="pjDonutPct">84,5%</strong>
+                      <span class="pj-donut-label">Terserap</span>
+                    </div>
+                  </div>
+                  <div class="pj-donut-legend" id="pjDonutLegend"></div>
+                </div>
+              </div>
+
+              <!-- Rincian Penggunaan (Table) -->
+              <div class="pj-card pj-table-card">
+                <div class="pj-card-header">
+                  <h3 class="pj-card-title">Rincian Penggunaan</h3>
+                </div>
+                <div class="pj-table-container">
+                  <table class="pj-table" id="pjTable">
+                    <thead>
+                      <tr>
+                        <th class="th-prog">Program/Kegiatan</th>
+                        <th class="th-real">Realisasi</th>
+                      </tr>
+                    </thead>
+                    <tbody id="pjTableBody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- BOTTOM SECTION: 12-MONTH LINE CHART + DOWNLOAD REPORT -->
+          <section class="pj-bottom-section">
+            <div class="pj-bottom-grid">
+              <!-- Line Chart Card -->
+              <div class="pj-card pj-chart-card">
+                <div class="pj-chart-header">
+                  <div class="pj-chart-title-wrap">
+                    <h3 class="pj-card-title">Grafik Penggunaan Dana</h3>
+                    <span class="pj-chart-subtitle">(12 Bulan Terakhir)</span>
+                  </div>
+                  <div class="pj-chart-legend">
+                    <div class="pj-legend-item">
+                      <span class="pj-legend-dot dot-blue"></span>
+                      <span>Penerimaan</span>
+                    </div>
+                    <div class="pj-legend-item">
+                      <span class="pj-legend-dot dot-green"></span>
+                      <span>Penggunaan</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="pj-linechart-wrap" id="pjLineChartWrap">
+                  <svg class="pj-linechart-svg" viewBox="0 0 720 220" id="pjLineChartSvg" preserveAspectRatio="none"></svg>
+                  <div class="pj-chart-tooltip" id="pjChartTooltip" style="display: none;"></div>
+                </div>
+              </div>
+
+              <!-- Unduh Laporan Card -->
+              <div class="pj-card pj-download-card">
+                <div class="pj-card-header">
+                  <h3 class="pj-card-title">Unduh Laporan</h3>
+                </div>
+                <div class="pj-download-body">
+                  <div class="pj-download-info-row">
+                    <p class="pj-download-text">Lihat laporan detail pengguna dana PBB-P2 dalam format PDF</p>
+                    <div class="pj-pdf-icon-wrap">
+                      <svg class="pj-pdf-icon" viewBox="0 0 54 66" fill="none">
+                        <path d="M6 3 H36 L48 15 V60 C48 61.6569 46.6569 63 45 63 H9 C7.34315 63 6 61.6569 6 60 V3 Z" fill="#60a5fa" fill-opacity="0.25" stroke="#3b82f6" stroke-width="2.5"></path>
+                        <path d="M36 3 V15 H48" fill="#93c5fd" stroke="#3b82f6" stroke-width="2.5" stroke-linejoin="round"></path>
+                        <line x1="14" y1="28" x2="38" y2="28" stroke="#2563eb" stroke-width="3" stroke-linecap="round"></line>
+                        <line x1="14" y1="37" x2="38" y2="37" stroke="#2563eb" stroke-width="3" stroke-linecap="round"></line>
+                        <line x1="14" y1="46" x2="28" y2="46" stroke="#2563eb" stroke-width="3" stroke-linecap="round"></line>
+                      </svg>
+                    </div>
+                  </div>
+                  <button type="button" class="pj-btn-download" id="pjBtnDownload">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                      <polyline points="7 10 12 15 17 10"></polyline>
+                      <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    <span>Download Laporan</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+      <!-- ============================================================== -->
+      <!-- VIEW 4: INFORMASI (BERITA, PENGUMUMAN, REGULASI, FAQ)          -->
+      <!-- ============================================================== -->
+      <div id="viewInformasi" class="dashboard-view {{ $isInformasi ? 'active' : '' }}" @if(!$isInformasi) style="display: none;" @endif>
+        <!-- TOP ADMIN BAR -->
+        <div class="top-bar">
+          <div class="admin-dropdown-container">
+            <button class="admin-btn">
+              <div class="admin-avatar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </div>
+              <span class="admin-name">Admin</span>
+              <svg class="admin-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            
+            <div class="admin-dropdown-menu">
+              <div class="admin-dropdown-header">
+                <strong>Administrator BAPENDA</strong>
+                <span>admin@karawangkab.go.id</span>
+              </div>
+              <hr class="dropdown-divider">
+              <a href="#" class="dropdown-item">Profil Admin</a>
+              <a href="#" class="dropdown-item">Pengaturan Sistem</a>
+              <a href="#" class="dropdown-item">Log Aktivitas</a>
+              <hr class="dropdown-divider">
+              <a href="#" class="dropdown-item text-danger">Keluar</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-view-container">
+          <!-- PAGE HEADER WITH DATE FILTER -->
+          <section class="page-header info-page-header">
+            <div class="header-left">
+              <h1 class="page-title info-title">Informasi</h1>
+              <p class="page-subtitle info-subtitle">Berita, pengumuman, dan regulasi terbaru seputar PBB-P2</p>
+            </div>
+
+            <div class="header-right">
+              <div class="period-filter-wrapper" id="periodFilterInformasi">
+                <input type="hidden" id="filterTahunInformasi" value="2026">
+                <input type="hidden" id="filterBulanInformasi" value="all">
+                <input type="hidden" id="filterStartDateInformasi" value="2026-01-01">
+                <input type="hidden" id="filterEndDateInformasi" value="2026-12-31">
+
+                <div class="date-range-filter-group" id="dateRangeFilterGroupInformasi">
+                  <button type="button" class="date-range-trigger-btn info-date-btn" id="dateRangeTriggerInformasi" aria-haspopup="dialog" aria-expanded="false" title="Klik untuk memilih rentang tanggal">
+                    <span class="date-range-display-text" id="dateRangeTextInformasi">1 Jan 26 - 31 Des 2026</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="calendar-trigger-icon">
+                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                      <line x1="16" y1="2" x2="16" y2="6"></line>
+                      <line x1="8" y1="2" x2="8" y2="6"></line>
+                      <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                  </button>
+
+                  <button type="button" class="btn-filter-reset-sm info-reset-btn" id="btnResetFilterInformasi" title="Kembalikan ke periode default (Tahun 2026)">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                      <path d="M3 3v5h5"></path>
+                    </svg>
+                    <span>Reset</span>
+                  </button>
+                </div>
+
+                <!-- Two-Month Pop-up Calendar Modal for Informasi -->
+                <div class="date-range-popup" id="dateRangePopupInformasi" role="dialog" aria-modal="true" style="display: none;">
+                  <div class="calendar-popup-header">
+                    <button type="button" class="cal-nav-btn" id="calPrevBtnInformasi" title="Bulan Sebelumnya">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                      </svg>
+                    </button>
+                    <div class="calendar-quick-selectors">
+                      <select class="cal-jump-select" id="calMonthJumpInformasi" title="Pilih Bulan"></select>
+                      <select class="cal-jump-select" id="calYearJumpInformasi" title="Pilih Tahun"></select>
+                    </div>
+                    <button type="button" class="cal-nav-btn" id="calNextBtnInformasi" title="Bulan Berikutnya">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                      </svg>
+                    </button>
+                  </div>
+
+                  <div class="calendar-months-container" id="calendarMonthsInformasi"></div>
+
+                  <div class="calendar-popup-footer">
+                    <div class="calendar-footer-preview">
+                      <span class="preview-label">Rentang:</span>
+                      <strong class="preview-val" id="calPreviewRangeInformasi">1 Jan 2026 – 31 Des 2026</strong>
+                    </div>
+                    <div class="calendar-footer-actions">
+                      <button type="button" class="btn-cal-action btn-cal-cancel" id="calCancelBtnInformasi">Batal</button>
+                      <button type="button" class="btn-cal-action btn-cal-apply" id="calApplyBtnInformasi">Terapkan</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- CATEGORY FILTER TABS -->
+          <section class="info-tabs-section">
+            <div class="info-tabs-nav" role="tablist">
+              <button type="button" class="info-tab-btn active" data-tab="semua" role="tab" aria-selected="true">Semua</button>
+              <button type="button" class="info-tab-btn" data-tab="berita" role="tab" aria-selected="false">Berita</button>
+              <button type="button" class="info-tab-btn" data-tab="pengumuman" role="tab" aria-selected="false">Pengumuman</button>
+              <button type="button" class="info-tab-btn" data-tab="regulasi" role="tab" aria-selected="false">Regulasi</button>
+              <button type="button" class="info-tab-btn" data-tab="faq" role="tab" aria-selected="false">FAQ</button>
+            </div>
+          </section>
+
+          <!-- ALERT / EMPTY STATE (if date filter yields no items) -->
+          <div class="info-alert-box" id="infoAlertBox" style="display: none;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span id="infoAlertMessage">Tidak ada berita atau pengumuman pada periode tanggal yang dipilih.</span>
+          </div>
+
+          <!-- MAIN 2-COLUMN CONTENT LAYOUT (FOR 'SEMUA' TAB) -->
+          <div class="info-content-layout" id="infoContentLayout">
+            <!-- LEFT COLUMN: BERITA TERBARU -->
+            <div class="info-col-left" id="infoColLeft">
+              <div class="info-card info-card-berita">
+                <div class="info-card-header">
+                  <h2 class="info-card-title">Berita Terbaru</h2>
+                  <button type="button" class="info-btn-view-all" id="btnLihatSemuaBerita" data-target-tab="berita">
+                    <span>Lihat Semua</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </button>
+                </div>
+                <div class="info-card-body info-berita-list" id="infoBeritaList">
+                  <!-- Rendered dynamically -->
+                </div>
+              </div>
+            </div>
+
+            <!-- RIGHT COLUMN: PENGUMUMAN, REGULASI, FAQ -->
+            <div class="info-col-right" id="infoColRight">
+              <!-- CARD 1: PENGUMUMAN -->
+              <div class="info-card info-card-pengumuman" id="cardPengumuman">
+                <div class="info-card-header">
+                  <h2 class="info-card-title">Pengumuman</h2>
+                  <button type="button" class="info-btn-view-all" id="btnLihatSemuaPengumuman" data-target-tab="pengumuman">
+                    <span>Lihat Semua</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </button>
+                </div>
+                <div class="info-card-body info-pengumuman-list" id="infoPengumumanList">
+                  <!-- Rendered dynamically -->
+                </div>
+              </div>
+
+              <!-- CARD 2: REGULASI -->
+              <div class="info-card info-card-regulasi" id="cardRegulasi">
+                <div class="info-card-header">
+                  <h2 class="info-card-title">Regulasi</h2>
+                  <button type="button" class="info-btn-view-all" id="btnLihatSemuaRegulasi" data-target-tab="regulasi">
+                    <span>Lihat Semua</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </button>
+                </div>
+                <div class="info-card-body info-regulasi-list" id="infoRegulasiList">
+                  <!-- Rendered dynamically -->
+                </div>
+              </div>
+
+              <!-- CARD 3: FAQ -->
+              <div class="info-card info-card-faq" id="cardFAQ">
+                <div class="info-faq-header-bar">
+                  <svg class="info-faq-head-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                  </svg>
+                  <span class="info-faq-head-title">Pertanyaan yang Sering Diajukan</span>
+                </div>
+                <div class="info-card-body info-faq-list" id="infoFaqList">
+                  <!-- Accordion rendered dynamically -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- DEDICATED FULL-WIDTH VIEW (FOR BERITA / PENGUMUMAN / REGULASI / FAQ TABS) -->
+          <div class="info-tab-fullscreen-container" id="infoTabFullscreenContainer" style="display: none;">
+            <div class="info-fullscreen-topbar">
+              <button type="button" class="btn-info-back-semua" id="btnBackToSemua">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="19" y1="12" x2="5" y2="12"></line>
+                  <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                <span>Kembali ke Semua Informasi</span>
+              </button>
+              <h2 class="info-fullscreen-title" id="infoFullscreenTitle">Koleksi Informasi</h2>
+            </div>
+            <div class="info-fullscreen-content" id="infoFullscreenContent"></div>
+          </div>
+        </div>
+
+        <!-- DETAIL MODAL FOR READING NEWS / ANNOUNCEMENT / REGULATION -->
+        <div class="info-modal-backdrop" id="infoDetailModal" style="display: none;" role="dialog" aria-modal="true">
+          <div class="info-modal-card">
+            <div class="info-modal-header">
+              <div class="info-modal-badge" id="infoModalBadge">Berita</div>
+              <button type="button" class="info-modal-close-btn" id="btnInfoModalClose" title="Tutup">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
+            <div class="info-modal-body" id="infoModalBody">
+              <!-- Dynamic detail content -->
+            </div>
+          </div>
+        </div>
       </div>
 
     </main>
@@ -872,7 +1559,18 @@
   <script src="assets/majalaya_data.js"></script>
   <script src="assets/talagasari_data.js"></script>
   <script src="assets/lemahabang_data.js"></script>
-  <script src="assets/tirtamulya_data.js"></script>
-  <script src="js/app.js"></script>
+  <script src="assets/tirtamulya_data.js?v=20261015_r2"></script>
+  <script src="assets/rawamerta_data.js?v=20261015_r2"></script>
+  <script src="assets/kutawaluya_data.js?v=20261015_r2"></script>
+  <script src="assets/karawang_barat_data.js?v=20261019_kb"></script>
+  <script src="assets/rengasdengklok_data.js"></script>
+  <script src="assets/pedes_data.js"></script>
+  <script src="assets/jayakerta_data.js"></script>
+  <script src="assets/cibuaya_data.js"></script>
+  <script src="assets/tirtajaya_data.js"></script>
+  <script src="assets/batujaya_data.js"></script>
+  <script src="assets/penggunaan_data.js?v=20261020_penggunaan_fix"></script>
+  <script src="assets/informasi_data.js?v=20261020_info_fix"></script>
+  <script src="js/app.js?v=20261020_info_fix"></script>
 </body>
 </html>
