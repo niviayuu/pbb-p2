@@ -1,0 +1,7 @@
+DirectoryIndex index.php index.html
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # If root is requested and user is not logged in, index.php handles redirect to login.php
+</IfModule>
+

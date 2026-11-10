@@ -2,6 +2,23 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
+  <script>
+    (function () {
+      if (window.location.protocol.indexOf('http') === 0) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'auth.php?action=check', false);
+        try {
+          xhr.send();
+          if (xhr.status === 200) {
+            var data = JSON.parse(xhr.responseText);
+            if (!data || !data.authenticated) {
+              window.location.replace('login.php');
+            }
+          }
+        } catch (e) {}
+      }
+    })();
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Peta Capaian PBB-P2 - BAPENDA Kabupaten Karawang</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -120,7 +137,7 @@
               <a href="#" class="dropdown-item">Pengaturan Sistem</a>
               <a href="#" class="dropdown-item">Log Aktivitas</a>
               <hr class="dropdown-divider">
-              <a href="#" class="dropdown-item text-danger">Keluar</a>
+              <a href="logout.php" class="dropdown-item text-danger">Keluar</a>
             </div>
           </div>
         </div>
@@ -1060,7 +1077,7 @@
               <a href="#" class="dropdown-item">Pengaturan Sistem</a>
               <a href="#" class="dropdown-item">Log Aktivitas</a>
               <hr class="dropdown-divider">
-              <a href="#" class="dropdown-item text-danger">Keluar</a>
+              <a href="logout.php" class="dropdown-item text-danger">Keluar</a>
             </div>
           </div>
         </div>
@@ -1324,7 +1341,7 @@
               <a href="#" class="dropdown-item">Pengaturan Sistem</a>
               <a href="#" class="dropdown-item">Log Aktivitas</a>
               <hr class="dropdown-divider">
-              <a href="#" class="dropdown-item text-danger">Keluar</a>
+              <a href="logout.php" class="dropdown-item text-danger">Keluar</a>
             </div>
           </div>
         </div>

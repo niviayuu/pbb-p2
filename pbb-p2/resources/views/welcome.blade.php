@@ -125,7 +125,7 @@
               <a href="#" class="dropdown-item">Pengaturan Sistem</a>
               <a href="#" class="dropdown-item">Log Aktivitas</a>
               <hr class="dropdown-divider">
-              <a href="#" class="dropdown-item text-danger">Keluar</a>
+              <a href="{{ url('/logout') }}" class="dropdown-item text-danger">Keluar</a>
             </div>
           </div>
         </div>
@@ -1065,7 +1065,7 @@
               <a href="#" class="dropdown-item">Pengaturan Sistem</a>
               <a href="#" class="dropdown-item">Log Aktivitas</a>
               <hr class="dropdown-divider">
-              <a href="#" class="dropdown-item text-danger">Keluar</a>
+              <a href="{{ url('/logout') }}" class="dropdown-item text-danger">Keluar</a>
             </div>
           </div>
         </div>
@@ -1329,7 +1329,7 @@
               <a href="#" class="dropdown-item">Pengaturan Sistem</a>
               <a href="#" class="dropdown-item">Log Aktivitas</a>
               <hr class="dropdown-divider">
-              <a href="#" class="dropdown-item text-danger">Keluar</a>
+              <a href="{{ url('/logout') }}" class="dropdown-item text-danger">Keluar</a>
             </div>
           </div>
         </div>
